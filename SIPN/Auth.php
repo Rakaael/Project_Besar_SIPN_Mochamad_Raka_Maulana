@@ -7,9 +7,20 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
 }
 
 // Alamat folder SIPN (otomatis), supaya redirect benar dari folder mana pun.
-$appPath = str_replace('\\', '/', realpath(__DIR__));
-$docPath = str_replace('\\', '/', realpath($_SERVER['DOCUMENT_ROOT']));
-define('APP_URL', rtrim(substr($appPath, strlen($docPath)), '/'));
+// DOCUMENT_ROOT tidak selalu tersedia (misalnya saat CLI atau server tertentu).
+$appPath = str_replace('\\', '/', realpath(__DIR__) ?: __DIR__);
+$documentRoot = (string) ($_SERVER['DOCUMENT_ROOT'] ?? '');
+$docPath = str_replace('\\', '/', realpath($documentRoot) ?: $documentRoot);
+$appUrl = '';
+if ($docPath !== '') {
+    $rootPrefix = rtrim($docPath, '/') . '/';
+    if (stripos($appPath, $rootPrefix) === 0) {
+        $appUrl = '/' . ltrim(substr($appPath, strlen($rootPrefix)), '/');
+    }
+}
+if (!defined('APP_URL')) {
+    define('APP_URL', rtrim($appUrl, '/'));
+}
 
 // Normalisasi role agar form seperti 'guru&kelas' atau 'Guru & Kelas' tetap diperlakukan sebagai guru.
 function normalisasi_role($role)
@@ -28,14 +39,11 @@ function cocok_role($role, array $izin)
     }
     foreach ($izin as $target) {
         $targetNorm = normalisasi_role($target);
-        if ($targetNorm === '' || $nilai === $targetNorm) {
-            continue;
-        }
-        if (str_contains($nilai, $targetNorm)) {
+        if ($targetNorm !== '' && ($nilai === $targetNorm || str_contains($nilai, $targetNorm))) {
             return true;
         }
     }
-    return in_array($nilai, array_map('normalisasi_role', $izin), true);
+    return false;
 }
 
 // Ubah nilai role internal menjadi label yang lebih mudah dibaca.
@@ -89,14 +97,21 @@ function csrf_valid($token)
 // Menjalankan SELECT (prepared statement) dan mengembalikan semua baris sebagai array.
 function ambil($koneksi, $sql, $tipe = '', $param = [])
 {
+    $param = is_array($param) ? array_values($param) : [];
     $stmt = mysqli_prepare($koneksi, $sql);
     if (!$stmt) {
         die('Query gagal: ' . mysqli_error($koneksi));
     }
-    if ($tipe !== '' && !mysqli_stmt_bind_param($stmt, $tipe, ...$param)) {
-        $error = mysqli_stmt_error($stmt);
-        mysqli_stmt_close($stmt);
-        die('Parameter query tidak valid: ' . $error);
+    if ($tipe !== '') {
+        if (!is_string($tipe) || strlen($tipe) !== count($param)) {
+            mysqli_stmt_close($stmt);
+            die('Parameter query tidak valid.');
+        }
+        if (!mysqli_stmt_bind_param($stmt, $tipe, ...$param)) {
+            $error = mysqli_stmt_error($stmt);
+            mysqli_stmt_close($stmt);
+            die('Parameter query tidak valid: ' . $error);
+        }
     }
     if (!mysqli_stmt_execute($stmt)) {
         $error = mysqli_stmt_error($stmt);
@@ -117,14 +132,21 @@ function ambil($koneksi, $sql, $tipe = '', $param = [])
 // Menjalankan INSERT/UPDATE/DELETE (prepared statement). Mengembalikan ok, errno, affected.
 function jalankan($koneksi, $sql, $tipe = '', $param = [])
 {
+    $param = is_array($param) ? array_values($param) : [];
     $stmt = mysqli_prepare($koneksi, $sql);
     if (!$stmt) {
         return ['ok' => false, 'errno' => mysqli_errno($koneksi), 'affected' => 0];
     }
-    if ($tipe !== '' && !mysqli_stmt_bind_param($stmt, $tipe, ...$param)) {
-        $hasil = ['ok' => false, 'errno' => mysqli_stmt_errno($stmt), 'affected' => 0];
-        mysqli_stmt_close($stmt);
-        return $hasil;
+    if ($tipe !== '') {
+        if (!is_string($tipe) || strlen($tipe) !== count($param)) {
+            mysqli_stmt_close($stmt);
+            return ['ok' => false, 'errno' => 0, 'affected' => 0];
+        }
+        if (!mysqli_stmt_bind_param($stmt, $tipe, ...$param)) {
+            $hasil = ['ok' => false, 'errno' => mysqli_stmt_errno($stmt), 'affected' => 0];
+            mysqli_stmt_close($stmt);
+            return $hasil;
+        }
     }
     $ok = mysqli_stmt_execute($stmt);
     $hasil = ['ok' => $ok, 'errno' => mysqli_stmt_errno($stmt), 'affected' => mysqli_stmt_affected_rows($stmt)];
@@ -135,8 +157,8 @@ function jalankan($koneksi, $sql, $tipe = '', $param = [])
 // Profil siswa/guru milik user yang sedang login (admin tidak punya profil -> null).
 function profil_saya($koneksi)
 {
-    $role = $_SESSION['role'] ?? '';
-    if ($role !== 'siswa' && $role !== 'guru') {
+    $role = normalisasi_role($_SESSION['role'] ?? '');
+    if (!in_array($role, ['siswa', 'guru'], true)) {
         return null;
     }
     $baris = ambil($koneksi, "SELECT * FROM $role WHERE user_id = ? LIMIT 1", 'i', [(int) $_SESSION['user_id']]);
