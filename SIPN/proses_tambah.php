@@ -2,17 +2,20 @@
 mysqli_report(MYSQLI_REPORT_OFF);
 require_once __DIR__ . '/Koneksi.php';
 
+// Bedakan pendaftaran siswa umum dengan pembuatan akun oleh admin.
 if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
 $isPublicRegistration = ($_SESSION['public_student_registration'] ?? false) === true;
 unset($_SESSION['public_student_registration']);
 if (!$isPublicRegistration) {
+    // Hanya admin yang boleh membuat akun dari halaman pengelolaan user.
     require_once __DIR__ . '/Auth.php';
     wajib_role(['admin']);
 }
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    // File ini hanya menerima data dari formulir.
     header('Location: Daftar_user.php');
     exit;
 }
@@ -36,6 +39,7 @@ if ($onlyUser && $role === 'admin' && $namaAdmin !== '' && strlen($namaAdmin) <=
 }
 
 $targetForm = static function ($error) use ($isPublicRegistration, $onlyUser, $role) {
+    // Kembalikan pengguna ke formulir yang sesuai jika data tidak valid.
     if ($isPublicRegistration) {
         return 'Tambah_user.php?error=' . rawurlencode($error);
     }
@@ -87,6 +91,7 @@ if (!mysqli_begin_transaction($koneksi)) {
 }
 
 $passwordHash = password_hash($password, PASSWORD_DEFAULT);
+// Akun dan profil disimpan dalam satu transaksi.
 $userStmt = mysqli_prepare($koneksi, 'INSERT INTO users (username, password, role, created_at) VALUES (?, ?, ?, NOW())');
 if (!$userStmt) {
     mysqli_rollback($koneksi);
@@ -115,6 +120,7 @@ if (!$userSaved) {
 
 $userId = (int) mysqli_insert_id($koneksi);
 if ($role === 'siswa') {
+    // Data tambahan siswa disimpan di tabel siswa.
     $profileStmt = mysqli_prepare($koneksi, 'INSERT INTO siswa (nis, nama, kelas, jenis_kelamin, user_id) VALUES (?, ?, ?, ?, ?)');
     if (!$profileStmt) {
         mysqli_rollback($koneksi);
@@ -122,6 +128,7 @@ if ($role === 'siswa') {
     }
     mysqli_stmt_bind_param($profileStmt, 'ssssi', $nis, $nama, $kelas, $jenisKelamin, $userId);
 } elseif ($role === 'guru') {
+    // Data tambahan guru disimpan di tabel guru.
     $profileStmt = mysqli_prepare($koneksi, 'INSERT INTO guru (nip, nama, jenis_kelamin, user_id) VALUES (?, ?, ?, ?)');
     if (!$profileStmt) {
         mysqli_rollback($koneksi);

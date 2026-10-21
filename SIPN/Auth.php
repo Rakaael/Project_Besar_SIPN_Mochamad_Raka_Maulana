@@ -1,13 +1,11 @@
 <?php
-// File ini berisi fungsi bantu yang dipakai halaman baru: cek login & role, ambil data, dan kerangka tampilan.
-// Cara pakai di awal halaman: require_once 'Koneksi.php'; require_once 'Auth.php'; wajib_role(['admin']);
+// Fungsi umum untuk login, hak akses, query database, dan tampilan halaman.
 mysqli_report(MYSQLI_REPORT_OFF);
 if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
 
-// Alamat folder SIPN (otomatis), supaya redirect benar dari folder mana pun.
-// DOCUMENT_ROOT tidak selalu tersedia (misalnya saat CLI atau server tertentu).
+// Tentukan alamat aplikasi agar redirect tetap benar dari subfolder.
 $appPath = str_replace('\\', '/', realpath(__DIR__) ?: __DIR__);
 $documentRoot = (string) ($_SERVER['DOCUMENT_ROOT'] ?? '');
 $docPath = str_replace('\\', '/', realpath($documentRoot) ?: $documentRoot);
@@ -22,7 +20,7 @@ if (!defined('APP_URL')) {
     define('APP_URL', rtrim($appUrl, '/'));
 }
 
-// Normalisasi role agar form seperti 'guru&kelas' atau 'Guru & Kelas' tetap diperlakukan sebagai guru.
+// Samakan format role sebelum dibandingkan.
 function normalisasi_role($role)
 {
     $nilai = strtolower(trim((string) $role));
@@ -30,7 +28,7 @@ function normalisasi_role($role)
     return $nilai;
 }
 
-// Cocokkan role sesi dengan daftar role yang berhak membuka halaman.
+// Cek apakah role pengguna termasuk role yang diizinkan.
 function cocok_role($role, array $izin)
 {
     $nilai = normalisasi_role($role);
@@ -46,7 +44,7 @@ function cocok_role($role, array $izin)
     return false;
 }
 
-// Ubah nilai role internal menjadi label yang lebih mudah dibaca.
+// Ubah kode role menjadi teks yang ditampilkan di halaman.
 function label_role($role)
 {
     $nilai = normalisasi_role($role);
@@ -59,7 +57,7 @@ function label_role($role)
     return $map[$nilai] ?? ucfirst((string) $role);
 }
 
-// Membatasi halaman hanya untuk role tertentu. Belum login -> ke Login, salah role -> ke Dashboard.
+// Batasi akses halaman berdasarkan role pengguna.
 function wajib_role(array $roles)
 {
     if (!isset($_SESSION['user_id'])) {
@@ -72,7 +70,7 @@ function wajib_role(array $roles)
     }
 }
 
-// Singkatan htmlspecialchars agar aman dari XSS.
+// Escape output sebelum ditampilkan ke HTML.
 function h($nilai)
 {
     return htmlspecialchars((string) $nilai, ENT_QUOTES, 'UTF-8');
@@ -80,6 +78,7 @@ function h($nilai)
 
 function token_csrf()
 {
+    // Buat token sekali per sesi untuk melindungi form dari CSRF.
     if (!isset($_SESSION['csrf_token']) || !is_string($_SESSION['csrf_token'])) {
         $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
     }
@@ -88,13 +87,14 @@ function token_csrf()
 
 function csrf_valid($token)
 {
+    // Bandingkan token form dengan token yang tersimpan di sesi.
     return is_string($token)
         && isset($_SESSION['csrf_token'])
         && is_string($_SESSION['csrf_token'])
         && hash_equals($_SESSION['csrf_token'], $token);
 }
 
-// Menjalankan SELECT (prepared statement) dan mengembalikan semua baris sebagai array.
+// Jalankan query SELECT dan kembalikan hasilnya sebagai array.
 function ambil($koneksi, $sql, $tipe = '', $param = [])
 {
     $param = is_array($param) ? array_values($param) : [];
@@ -129,7 +129,7 @@ function ambil($koneksi, $sql, $tipe = '', $param = [])
     return $baris;
 }
 
-// Menjalankan INSERT/UPDATE/DELETE (prepared statement). Mengembalikan ok, errno, affected.
+// Jalankan query perubahan data dan kembalikan statusnya.
 function jalankan($koneksi, $sql, $tipe = '', $param = [])
 {
     $param = is_array($param) ? array_values($param) : [];
@@ -154,7 +154,7 @@ function jalankan($koneksi, $sql, $tipe = '', $param = [])
     return $hasil;
 }
 
-// Profil siswa/guru milik user yang sedang login (admin tidak punya profil -> null).
+// Ambil profil siswa atau guru yang sedang login.
 function profil_saya($koneksi)
 {
     $role = normalisasi_role($_SESSION['role'] ?? '');
@@ -165,7 +165,7 @@ function profil_saya($koneksi)
     return $baris[0] ?? null;
 }
 
-// Temukan berkas foto profil berdasarkan ID user dan ekstensi yang didukung.
+// Cari file foto profil berdasarkan ID user.
 function foto_profil_path($userId)
 {
     $userId = (int) $userId;
@@ -181,7 +181,7 @@ function foto_profil_path($userId)
     return null;
 }
 
-// Bentuk URL foto profil dan tambahkan versi berkas agar cache ikut diperbarui.
+// Buat URL foto profil dengan versi file untuk menghindari cache lama.
 function foto_profil_url($userId)
 {
     $jalurFoto = foto_profil_path($userId);
@@ -191,20 +191,20 @@ function foto_profil_url($userId)
     return APP_URL . '/PROFIL/Foto.php?v=' . (int) filemtime($jalurFoto);
 }              
 
-// Keterangan otomatis: Tuntas jika rata-rata nilai pengetahuan & keterampilan >= KKM.
+// Tentukan keterangan nilai berdasarkan rata-rata dan KKM.
 function hitung_keterangan($kkm, $pengetahuan, $keterampilan)
 {
     return (($pengetahuan + $keterampilan) / 2) >= $kkm ? 'Tuntas' : 'Belum Tuntas';
 }
 
-// Membaca nilai 0-100 dari input; mengembalikan null jika tidak valid.
+// Validasi nilai agar berada pada rentang 0 sampai 100.
 function nilai_valid($nilai)
 {
     $angka = filter_var($nilai, FILTER_VALIDATE_INT);
     return ($angka !== false && $angka >= 0 && $angka <= 100) ? $angka : null;
 }
 
-// Menampilkan alert status/error dari parameter URL (?status=... atau ?error=...).
+// Tampilkan pesan berhasil atau gagal dari parameter URL.
 function notifikasi(array $statusPesan, array $errorPesan)
 {
     $s = $statusPesan[$_GET['status'] ?? ''] ?? null;
@@ -224,7 +224,7 @@ function kepala($judul, $sub = false, $datatables = false)
     <?php if ($sub) { ?><base href="../"><?php } ?>
     <title><?= h($judul); ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="<?= h(APP_URL); ?>/assets/css/navbar.css?v=5" rel="stylesheet">
+    <link href="<?= h(APP_URL); ?>/assets/css/navbar.css?v=9" rel="stylesheet">
     <?php if ($datatables) { ?><link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css"><?php } ?>
     <style>
         body { background: radial-gradient(ellipse at 92% 2%, rgba(28,157,119,0.12), transparent 27rem), linear-gradient(180deg, #eaf6ef 0, #f4f8f4 260px, #f8faf7 100%); color: #173f35; min-height: 100vh; font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif; -webkit-font-smoothing: antialiased; }
@@ -296,6 +296,23 @@ function kepala($judul, $sub = false, $datatables = false)
             main.container > form.row.g-3 { padding: 1.1rem; }
         }
         @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; } }
+        /* Final ocean palette for every authenticated role page. */
+        body { background: linear-gradient(rgba(8,126,164,.075) 1px, transparent 1px), linear-gradient(90deg, rgba(8,126,164,.075) 1px, transparent 1px), radial-gradient(ellipse at 8% 0%, rgba(34,184,199,.18), transparent 34rem), radial-gradient(ellipse at 96% 14%, rgba(17,112,177,.14), transparent 30rem), linear-gradient(180deg, #eaf7fb 0%, #f8fcfd 48%, #eef7fa 100%) !important; background-size: 36px 36px, 36px 36px, auto, auto, auto !important; color: #153b56 !important; }
+        .judul { color: #064c75 !important; }
+        .judul::after { background: linear-gradient(90deg, #06618f, #18b7c5, #72d6df) !important; }
+        .kartu { background: linear-gradient(145deg, rgba(255,255,255,.98), rgba(239,249,252,.97)) !important; border-color: #cfe4ed !important; box-shadow: 0 12px 30px rgba(8,91,132,.1) !important; }
+        .stat.bg-primary, .dashboard-page .stat.bg-primary { background: linear-gradient(135deg, #06466f, #087ea4) !important; }
+        .stat.bg-success, .dashboard-page .stat.bg-success { background: linear-gradient(135deg, #087ea4, #22b8c7) !important; }
+        .stat.bg-warning, .dashboard-page .stat.bg-warning { background: linear-gradient(135deg, #087093, #39c4ca) !important; }
+        .stat.bg-danger, .dashboard-page .stat.bg-danger { background: linear-gradient(135deg, #06466f, #087ea4) !important; }
+        .stat.bg-info, .dashboard-page .stat.bg-info { background: linear-gradient(135deg, #087ea4, #22b8c7) !important; }
+        .stat.bg-secondary, .dashboard-page .stat.bg-secondary { background: linear-gradient(135deg, #346b88, #71b9c6) !important; }
+        .table thead th { background: linear-gradient(105deg, #063b63 0%, #07658d 35%, #0892ad 68%, #19b7c2 100%) !important; }
+        .btn-primary { --bs-btn-bg: #087ea4; --bs-btn-border-color: #087ea4; --bs-btn-hover-bg: #06567e; --bs-btn-hover-border-color: #06567e; background-image: linear-gradient(115deg, #064c75, #087ea4 55%, #22b8c7) !important; border-color: #087ea4 !important; }
+        .form-control, .form-select { border-color: #bddbe7 !important; background: linear-gradient(180deg, #fff, #f1fafd) !important; }
+        .form-control:focus, .form-select:focus { border-color: #15aabe !important; box-shadow: 0 0 0 .2rem rgba(21,170,190,.16) !important; }
+        .profile-photo-fallback { color: #087ea4 !important; background: #e0f5f8 !important; }
+        .alert-info { color: #075d78 !important; background: #e5f7fa !important; border-color: #b9e1e8 !important; }
     </style>
 </head>
 <body>

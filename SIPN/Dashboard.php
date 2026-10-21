@@ -79,6 +79,14 @@ require_once __DIR__ . '/Navbar.php';
         .dashboard-page { padding-top: 1.5rem !important; }
         .dashboard-page .stat { min-height: 120px; padding: 1.35rem; }
     }
+    /* Keep dashboard cards aligned with the global ocean theme. */
+    .dashboard-page > .judul { color: #064c75 !important; }
+    .dashboard-page > .judul::after { background: linear-gradient(90deg, #06618f, #18b7c5, #72d6df) !important; }
+    .dashboard-page .stat.bg-primary { background: linear-gradient(135deg, #06466f, #087ea4) !important; }
+    .dashboard-page .stat.bg-success { background: linear-gradient(135deg, #087ea4, #22b8c7) !important; }
+    .dashboard-page .stat.bg-warning { background: linear-gradient(135deg, #087093, #39c4ca) !important; }
+    .dashboard-page .stat.bg-danger { background: linear-gradient(135deg, #06466f, #087ea4) !important; }
+    .dashboard-page .stat.bg-info { background: linear-gradient(135deg, #087ea4, #22b8c7) !important; }
 </style>
 <main class="container py-5 dashboard-page">
     <h1 class="judul">Dashboard <?= h(ucfirst($role)); ?></h1>

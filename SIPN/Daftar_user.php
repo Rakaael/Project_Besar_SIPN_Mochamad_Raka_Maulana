@@ -20,22 +20,8 @@ if ($daftarSiswa && !$isAdmin) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $daftarSiswa ? ($isAdmin ? 'Daftar Siswa' : 'Daftar Siswa Kelas') : 'Daftar User'; ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/navbar.css?v=5">
+    <link rel="stylesheet" href="assets/css/navbar.css?v=9">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
-    <style>
-        body { background: linear-gradient(180deg, #e4efff 0, #f2f7ff 260px, #f7faff 100%); color: #17345c; min-height: 100vh; }
-        .table-container { padding: 30px 65px; }
-        .judul { color: #0b3d91; text-align: center; font-size: 42px; font-weight: 700; margin-top: 20px; margin-bottom: 48px; }
-        .judul::after { content: ""; display: block; width: 56px; height: 4px; margin: 14px auto 0; border-radius: 4px; background: linear-gradient(90deg, #0b4aa2, #1685b6); }
-        #tabelUser { overflow: hidden; border-color: #d5e5fb; box-shadow: 0 8px 24px rgba(16, 64, 130, 0.1); }
-        #tabelUser thead th { background: linear-gradient(100deg, #073d31, #08765a 72%, #21896c); color: #fff; border-color: rgba(255,255,255,0.16); }
-        table.dataTable thead th { font-weight: 600; font-size: 18px; }
-        table.dataTable tbody td { font-size: 16px; }
-        @media (max-width: 768px) {
-            .table-container { padding: 24px 16px; }
-            .judul { font-size: 32px; margin-bottom: 40px; }
-        }
-    </style>
 </head>
 
 <body>

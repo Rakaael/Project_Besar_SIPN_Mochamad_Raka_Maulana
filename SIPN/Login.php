@@ -18,7 +18,7 @@ $loggedOut = ($_GET['logout'] ?? '') === '1';
     <style>
         :root { --login-ink: #17345c; --login-blue: #0b4aa2; --login-deep: #073779; --login-border: #d5e5fb; }
         body { position: relative; isolation: isolate; background: radial-gradient(ellipse at 16% 18%, rgba(42,143,155,0.16), transparent 32rem), linear-gradient(135deg, #e2edfc 0%, #f8fbff 58%, #e7f2f5 100%); color: var(--login-ink); font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif; -webkit-font-smoothing: antialiased; }
-        body::before { position: fixed; z-index: -1; inset: 0; background-image: linear-gradient(rgba(11,74,162,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(11,74,162,0.035) 1px, transparent 1px); background-size: 36px 36px; mask-image: linear-gradient(to bottom, #000 0%, transparent 90%); content: ""; pointer-events: none; }
+        body::before { position: fixed; z-index: -1; inset: 0; background-image: linear-gradient(rgba(8,120,93,0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(8,120,93,0.15) 1px, transparent 1px); background-size: 36px 36px; mask-image: linear-gradient(to bottom, #000 0%, transparent 90%); content: ""; pointer-events: none; }
         .login-shell { min-height: 100vh; }
         .login-layout { display: grid; width: min(100%, 1050px); grid-template-columns: minmax(0, 1.05fr) minmax(360px, 0.8fr); align-items: center; gap: clamp(2rem, 7vw, 6rem); }
         .login-intro { position: relative; isolation: isolate; padding: clamp(1rem, 3vw, 2.5rem) 0; }
@@ -241,6 +241,28 @@ $loggedOut = ($_GET['logout'] ?? '') === '1';
             .login-card form > *, .register-prompt { animation: none !important; }
             .login-card, .login-intro { animation: none; }
         }
+        /* Final login palette: ocean blue with a calm cyan gradient. */
+        :root { --login-ink: #153b56; --login-blue: #087ea4; --login-deep: #063b63; --login-border: #cfe4ed; }
+        body { background: radial-gradient(ellipse at 12% 12%, rgba(34,184,199,.18), transparent 32rem), radial-gradient(ellipse at 90% 85%, rgba(17,112,177,.13), transparent 30rem), linear-gradient(135deg, #e8f7fb 0%, #f8fcfd 58%, #eaf5fa 100%) !important; color: var(--login-ink) !important; }
+        body::before { background-image: linear-gradient(rgba(8,126,164,.09) 1px, transparent 1px), linear-gradient(90deg, rgba(8,126,164,.09) 1px, transparent 1px) !important; }
+        .login-intro::before { border-color: rgba(8,126,164,.11); background: radial-gradient(circle, rgba(255,255,255,.7), rgba(34,184,199,.09) 58%, transparent 70%); }
+        .login-intro-eyebrow { border-color: rgba(8,126,164,.18); color: #087ea4; }
+        .login-intro-eyebrow::before { background: #22b8c7; box-shadow: 0 0 10px rgba(34,184,199,.7); }
+        .login-intro h1 { color: #063b63; }
+        .login-intro h1 span { background: linear-gradient(105deg, #064c75 5%, #087ea4 58%, #22b8c7 100%); background-clip: text; -webkit-background-clip: text; color: transparent; }
+        .login-feature-icon { border-color: rgba(8,126,164,.14); color: #087ea4; }
+        .login-card { border-color: #cfe4ed !important; background: rgba(255,255,255,.96); box-shadow: 0 28px 75px rgba(8,91,132,.14), 0 0 24px rgba(34,184,199,.16) !important; }
+        .login-card::before { background: linear-gradient(90deg, #063b63, #087ea4 55%, #22b8c7) !important; box-shadow: 0 0 12px rgba(34,184,199,.35); }
+        .brand-symbol { background: linear-gradient(145deg, #063b63, #087ea4 70%, #22b8c7); box-shadow: 0 7px 18px rgba(6,59,99,.2), 0 0 13px rgba(34,184,199,.25); }
+        .brand-name, .login-heading h1 { color: #063b63 !important; }
+        .login-input .input-group-text { border-color: #bddbe7; background: #eaf7fb; color: #39708b; }
+        .login-input .form-control { border-color: #bddbe7; background: #fbfeff; color: #153b56; }
+        .login-input:focus-within .input-group-text, .login-input:focus-within .form-control { border-color: #15aabe; }
+        .login-input .form-control:focus { box-shadow: 0 0 0 .2rem rgba(21,170,190,.15); }
+        .btn-primary, .login-submit { --bs-btn-bg: #087ea4; --bs-btn-border-color: #087ea4; background: linear-gradient(105deg, #064c75, #087ea4 62%, #22b8c7) !important; border-color: #087ea4 !important; box-shadow: 0 9px 20px rgba(8,126,164,.2); }
+        .login-submit:hover { background: linear-gradient(105deg, #043d61, #066b91 62%, #13a1b1) !important; }
+        .register-link, a { color: #087ea4; }
+        .register-link:hover, a:hover { color: #063b63; }
     </style>
 </head>
 <body>

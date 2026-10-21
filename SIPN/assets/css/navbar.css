@@ -553,7 +553,7 @@ button:focus-visible {
 
 
 
-/* ===== SIPN Emerald + Ivory Metallic Global Theme (Revision 3) ===== */
+/* Tampilan utama aplikasi: kartu, tabel, form, dan navbar. */
 :root {
     --sipn-deep: #064b39;
     --sipn-primary: #08785d;
@@ -643,7 +643,7 @@ button:focus-visible {
     box-shadow: 0 3px 9px rgba(8,120,93,.18);
 }
 
-/* Forms and cards keep the same ivory surface with subtle metallic edges. */
+/* Gaya kartu dan form. */
 .card, .wrapper {
     background: linear-gradient(145deg, #fffef9 0%, #f6f5ed 100%) !important;
     border: 1px solid #d9e3d9 !important;
@@ -680,7 +680,7 @@ button:focus-visible {
     color: #fff !important;
 }
 
-/* Navbar dibuat lebih besar tanpa mengubah susunan/menu PHP-nya. */
+/* Ukuran dan tampilan navbar. */
 body { padding-top: 88px; }
 .sipn-navbar {
     min-height: 88px;
@@ -742,7 +742,7 @@ body { padding-top: 88px; }
 }
 
 
-/* Revisi 4: warna header tabel mengikuti referensi hijau zamrud pengguna. */
+/* Header tabel dibuat lebih jelas agar mudah dibaca. */
 .table thead th,
 .table-dark,
 .table thead.table-dark th {
@@ -757,3 +757,124 @@ body { padding-top: 88px; }
     color: #ffffff !important;
     border-color: rgba(255,255,255,.14) !important;
 }
+
+/* Gradasi tabel yang dipakai oleh beberapa komponen. */
+:root {
+    --sipn-table-gradient: linear-gradient(100deg,
+        #064b3a 0%,
+        #08785f 22%,
+        #0d8063 43%,
+        #075b46 64%,
+        #08785d 82%,
+        #16866b 100%);
+}
+
+.table thead th,
+.table-dark,
+.table thead.table-dark th,
+.sipn-navbar {
+    background: var(--sipn-table-gradient) !important;
+}
+
+/* Ukuran teks tabel dibuat konsisten di setiap halaman. */
+.table,
+.table tbody td,
+.table tbody th {
+    color: #24483d !important;
+    font-family: inherit;
+    font-size: 1rem;
+}
+
+.table thead th {
+    font-family: inherit;
+    font-size: .88rem !important;
+    font-weight: 650 !important;
+}
+
+/* Latar belakang global aplikasi. */
+html {
+    min-height: 100%;
+    background: #f8faf7;
+}
+
+body {
+    background-color: #f8faf7 !important;
+    background-image:
+        linear-gradient(rgba(8, 120, 93, .16) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(8, 120, 93, .16) 1px, transparent 1px),
+        radial-gradient(ellipse at 12% 0%, rgba(31, 157, 119, .12), transparent 32rem),
+        radial-gradient(ellipse at 92% 12%, rgba(207, 198, 169, .14), transparent 28rem),
+        linear-gradient(180deg, #f2f7f3 0%, #fbfaf5 46%, #f5f5ee 100%) !important;
+    background-size: 36px 36px, 36px 36px, auto, auto, auto !important;
+    background-attachment: fixed !important;
+}
+
+/* ===== SIPN Ocean Blue Theme ===== */
+:root {
+    --sipn-deep: #063b63;
+    --sipn-primary: #087ea4;
+    --sipn-primary-2: #22b8c7;
+    --sipn-ink: #153b56;
+    --sipn-muted: #668196;
+    --sipn-border: #cfe4ed;
+    --sipn-surface-soft: #edf7fa;
+    --sipn-white: #fbfeff;
+    --bs-primary: #087ea4;
+    --bs-primary-rgb: 8, 126, 164;
+}
+
+body {
+    background:
+        linear-gradient(rgba(8, 126, 164, .075) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(8, 126, 164, .075) 1px, transparent 1px),
+        radial-gradient(ellipse at 8% 0%, rgba(34, 184, 199, .18), transparent 34rem),
+        radial-gradient(ellipse at 96% 14%, rgba(17, 112, 177, .14), transparent 30rem),
+        linear-gradient(180deg, #eaf7fb 0%, #f8fcfd 48%, #eef7fa 100%) !important;
+    background-size: 36px 36px, 36px 36px, auto, auto, auto !important;
+    color: var(--sipn-ink) !important;
+}
+
+h1, h2, h3, .judul,
+.container > h1:not(.judul), main > h1:not(.judul) { color: #064c75 !important; }
+.judul::after { background: linear-gradient(90deg, #06618f, #18b7c5, #72d6df) !important; box-shadow: 0 0 12px rgba(24, 183, 197, .36) !important; }
+
+.card, .wrapper {
+    background: linear-gradient(145deg, rgba(255,255,255,.98), rgba(239,249,252,.97)) !important;
+    border-color: #cfe4ed !important;
+    box-shadow: 0 12px 30px rgba(8, 91, 132, .10), inset 0 1px 0 rgba(255,255,255,.9) !important;
+}
+.form-label, .kartu table th { color: #245676 !important; }
+.form-control, .form-select { border-color: #bddbe7 !important; background: linear-gradient(180deg, #fff, #f1fafd) !important; color: #153b56 !important; }
+.form-control:focus, .form-select:focus, .form-check-input:focus { border-color: #15aabe !important; box-shadow: 0 0 0 .2rem rgba(21,170,190,.16) !important; }
+
+.btn-primary, .btn-success {
+    --bs-btn-bg: #087ea4;
+    --bs-btn-border-color: #087ea4;
+    --bs-btn-hover-bg: #06567e;
+    --bs-btn-hover-border-color: #06567e;
+    background-image: linear-gradient(115deg, #064c75, #087ea4 55%, #22b8c7) !important;
+    border-color: #087ea4 !important;
+}
+.btn-primary:hover, .btn-success:hover { background-image: linear-gradient(115deg, #043d61, #066b91 55%, #13a1b1) !important; }
+
+.sipn-navbar { background: linear-gradient(110deg, #053552 0%, #075f88 25%, #0788a8 50%, #08729b 72%, #063b63 100%) !important; box-shadow: 0 10px 28px rgba(5,62,96,.25), inset 0 1px 0 rgba(255,255,255,.28) !important; }
+.sipn-navbar::after { background: linear-gradient(90deg, transparent, #8ce5eb 20%, #fff 42%, #54c9d4 58%, #fff 75%, transparent) !important; }
+.sipn-navbar .nav-link:hover, .sipn-navbar .nav-link:focus { background: rgba(133,231,239,.16) !important; }
+.sipn-navbar .dropdown-item:hover, .sipn-navbar .dropdown-item:focus { color: #064c75 !important; background: #e5f7fa !important; }
+
+.table { --bs-table-color: #245676; --bs-table-striped-bg: #edf8fb; --bs-table-hover-bg: #dff4f8; border-color: #cfe4ed !important; background: linear-gradient(180deg, #fff, #f1fafc) !important; }
+.table thead th { background: linear-gradient(105deg, #063b63 0%, #07658d 35%, #0892ad 68%, #19b7c2 100%) !important; }
+.table tbody td { border-color: #d7eaf0 !important; }
+.table.table-striped > tbody > tr:nth-of-type(odd) > * { background: linear-gradient(100deg, #edf8fb, #f8fdfe) !important; }
+.table.table-hover > tbody > tr:hover > * { background: linear-gradient(100deg, #ddf4f8, #eefbfc) !important; }
+
+.dataTables_wrapper .page-link { color: #087ea4 !important; border-color: #cfe4ed !important; }
+.dataTables_wrapper .page-item.active .page-link { background: linear-gradient(135deg, #064c75, #10a5b6) !important; border-color: #087ea4 !important; }
+.stat.bg-primary, .stat.bg-danger { background: linear-gradient(135deg, #06466f, #087ea4) !important; }
+.stat.bg-success, .stat.bg-info { background: linear-gradient(135deg, #087ea4, #22b8c7) !important; }
+.stat.bg-warning { background: linear-gradient(135deg, #087093, #39c4ca) !important; }
+.stat.bg-secondary { background: linear-gradient(135deg, #346b88, #71b9c6) !important; }
+.profile-photo-fallback { color: #087ea4 !important; background: #e0f5f8 !important; }
+.role-badge-siswa { color: #08658f; background: #e3f5fb; border-color: #b9dfea; }
+a, .register-link { color: #087ea4; }
+a:hover, .register-link:hover { color: #064c75; }

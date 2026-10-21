@@ -1,6 +1,5 @@
 <?php
-// File ini berfungsi sebagai pusat koneksi ke database MySQL.
-// Semua file lain memanggil file ini agar bisa terhubung ke database tanpa menulis konfigurasi berulang.
+// Koneksi database dipusatkan di file ini agar tidak ditulis ulang di setiap halaman.
 
 $host = 'localhost';
 $username = 'root';
