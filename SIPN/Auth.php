@@ -37,7 +37,9 @@ function cocok_role($role, array $izin)
     }
     foreach ($izin as $target) {
         $targetNorm = normalisasi_role($target);
-        if ($targetNorm !== '' && ($nilai === $targetNorm || str_contains($nilai, $targetNorm))) {
+        // Role harus sama persis. Guru & Kelas tetap dianggap sebagai guru.
+        $guruKelas = $targetNorm === 'guru' && $nilai === 'gurukelas';
+        if ($targetNorm !== '' && ($nilai === $targetNorm || $guruKelas)) {
             return true;
         }
     }
@@ -223,8 +225,16 @@ function kepala($judul, $sub = false, $datatables = false)
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <?php if ($sub) { ?><base href="../"><?php } ?>
     <title><?= h($judul); ?></title>
+    <script>
+        (function () {
+            try {
+                var theme = localStorage.getItem('sipn-theme');
+                if (theme === 'dark' || theme === 'light') document.documentElement.setAttribute('data-theme', theme);
+            } catch (error) {}
+        }());
+    </script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="<?= h(APP_URL); ?>/assets/css/navbar.css?v=9" rel="stylesheet">
+    <link href="<?= h(APP_URL); ?>/assets/css/navbar.css?v=13" rel="stylesheet">
     <?php if ($datatables) { ?><link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css"><?php } ?>
     <style>
         body { background: radial-gradient(ellipse at 92% 2%, rgba(28,157,119,0.12), transparent 27rem), linear-gradient(180deg, #eaf6ef 0, #f4f8f4 260px, #f8faf7 100%); color: #173f35; min-height: 100vh; font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif; -webkit-font-smoothing: antialiased; }
@@ -313,6 +323,29 @@ function kepala($judul, $sub = false, $datatables = false)
         .form-control:focus, .form-select:focus { border-color: #15aabe !important; box-shadow: 0 0 0 .2rem rgba(21,170,190,.16) !important; }
         .profile-photo-fallback { color: #087ea4 !important; background: #e0f5f8 !important; }
         .alert-info { color: #075d78 !important; background: #e5f7fa !important; border-color: #b9e1e8 !important; }
+        html[data-theme="dark"] body { background: #101b24 !important; color: #dceaf0 !important; }
+        html[data-theme="dark"] .kartu, html[data-theme="dark"] main.container > form.row.g-3 { background: linear-gradient(145deg, #1c303b, #172832) !important; border-color: #355460 !important; color: #dceaf0 !important; }
+        html[data-theme="dark"] .judul { color: #9de5eb !important; }
+        html[data-theme="dark"] .form-label, html[data-theme="dark"] .kartu table th, html[data-theme="dark"] .form-check-label { color: #b9d9df !important; }
+        html[data-theme="dark"] .form-control, html[data-theme="dark"] .form-select { background: #13232c !important; border-color: #416572 !important; color: #e4f2f4 !important; }
+        html[data-theme="dark"] .table { --bs-table-bg: #1b2d37; --bs-table-color: #d5e8ec; --bs-table-striped-bg: #203640; --bs-table-hover-bg: #29454f; background: #1b2d37 !important; border-color: #3b5a64 !important; }
+        html[data-theme="dark"] .table > :not(caption) > * > * { background: #1b2d37 !important; background-image: none !important; color: #d5e8ec !important; border-color: #34515c !important; }
+        html[data-theme="dark"] .table.table-striped > tbody > tr:nth-of-type(odd) > * > * { background: #1b2d37 !important; color: #d5e8ec !important; }
+        html[data-theme="dark"] .table.table-striped > tbody > tr:nth-of-type(even) > * > * { background: #1b2d37 !important; color: #d5e8ec !important; }
+        html[data-theme="dark"] .table.table-hover > tbody > tr:hover > * > * { background: #29454f !important; color: #f2fbfc !important; }
+        html[data-theme="dark"] .dataTables_wrapper label, html[data-theme="dark"] .dataTables_wrapper .dataTables_info, html[data-theme="dark"] .dataTables_wrapper .dataTables_length, html[data-theme="dark"] .dataTables_wrapper .dataTables_filter { color: #c7e0e5 !important; }
+        html[data-theme="dark"] .dataTables_wrapper .dataTables_filter input, html[data-theme="dark"] .dataTables_wrapper .dataTables_length select { color: #e4f2f4 !important; background: #13232c !important; }
+        html[data-theme="dark"] .dataTables_wrapper .page-link { background: #1b303a; border-color: #3b5a64; color: #9de5eb !important; }
+        html[data-theme="dark"] .dataTables_wrapper .page-item.disabled .page-link { background: #15262f; color: #76939b !important; }
+        html[data-theme="dark"] .dropdown-menu { background: #1b303a !important; border-color: #3b5a64 !important; }
+        html[data-theme="dark"] .dropdown-item { color: #d5e8ec !important; }
+        html[data-theme="dark"] .dropdown-item:hover, html[data-theme="dark"] .dropdown-item:focus { background: #2b4b56 !important; color: #fff !important; }
+        html[data-theme="dark"] .text-secondary { color: #9bb7bf !important; }
+        html[data-theme="dark"] a, html[data-theme="dark"] .register-link { color: #83d9e3; }
+        html[data-theme="dark"] table.table.table-striped tbody tr td, html[data-theme="dark"] table.table.table-striped tbody tr th { background: #111a20 !important; background-image: none !important; color: #f1fbfd !important; border-color: #3d5d66 !important; }
+        html[data-theme="dark"] .card, html[data-theme="dark"] .wrapper, html[data-theme="dark"] .kartu, html[data-theme="dark"] main.container > form.row.g-3 { background: #294652 !important; border: 2px solid #79aeb9 !important; color: #f1fbfd !important; box-shadow: 0 14px 34px rgba(0,0,0,.42), 0 0 0 1px rgba(164,220,226,.1) !important; }
+        html[data-theme="dark"] .wrapper { padding: 30px !important; }
+        html[data-theme="dark"] .form-control, html[data-theme="dark"] .form-select { background: #152831 !important; border: 1px solid #6c9da8 !important; color: #f5feff !important; }
     </style>
 </head>
 <body>

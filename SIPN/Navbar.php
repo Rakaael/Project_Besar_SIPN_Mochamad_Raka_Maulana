@@ -17,6 +17,7 @@ if (preg_match('/^./us', $navDisplayName, $initialMatch)) {
 }
 $navDisplayNameEscaped = htmlspecialchars($navDisplayName, ENT_QUOTES, 'UTF-8');
 $navFotoUrl = $isLoggedIn && function_exists('foto_profil_url') ? foto_profil_url((int) $_SESSION['user_id']) : null;
+$isDashboard = $isDashboard ?? basename($_SERVER['PHP_SELF']) === 'Dashboard.php';
 // Peta ikon SVG dipakai ulang oleh tautan navigasi sesuai role dan status login.
 $navIcon = static function (string $name): string {
     $paths = [
@@ -42,6 +43,39 @@ $navIcon = static function (string $name): string {
 <!-- File Navbar.php berfungsi sebagai template navigasi utama website. -->
 <!-- Menu berubah sesuai role (admin / guru / siswa). Semua link relatif terhadap folder SIPN (halaman subfolder memakai <base href="../">). -->
 
+<script>
+    (function () {
+        try {
+            var savedTheme = localStorage.getItem('sipn-theme');
+            if (savedTheme === 'dark' || savedTheme === 'light') {
+                document.documentElement.setAttribute('data-theme', savedTheme);
+            }
+        } catch (error) {
+            // Tema default tetap digunakan jika localStorage tidak tersedia.
+        }
+        document.addEventListener('DOMContentLoaded', function () {
+            var toggle = document.querySelector('[data-theme-toggle]');
+            var root = document.documentElement;
+            if (!toggle || toggle.dataset.themeBound === 'true') return;
+            toggle.dataset.themeBound = 'true';
+            function updateToggle() {
+                var dark = root.getAttribute('data-theme') === 'dark';
+                toggle.setAttribute('aria-pressed', String(dark));
+                toggle.setAttribute('aria-label', dark ? 'Aktifkan tema terang' : 'Aktifkan tema gelap');
+                toggle.querySelector('.sipn-theme-icon').textContent = dark ? '☀' : '☾';
+                toggle.querySelector('.sipn-theme-label').textContent = dark ? 'Light' : 'Dark';
+            }
+            updateToggle();
+            toggle.addEventListener('click', function () {
+                var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+                root.setAttribute('data-theme', next);
+                try { localStorage.setItem('sipn-theme', next); } catch (error) {}
+                updateToggle();
+            });
+        });
+    }());
+</script>
+<?php if (!$isDashboard) { ?>
 <nav class="navbar navbar-expand-lg navbar-dark sipn-navbar">
     <div class="container-fluid">
         <a class="navbar-brand" href="Dashboard.php">
@@ -118,6 +152,10 @@ $navIcon = static function (string $name): string {
                 <?php } ?>
             </ul>
             <div class="d-flex align-items-center gap-3">
+                <button class="sipn-theme-toggle" type="button" data-theme-toggle aria-label="Aktifkan tema gelap" aria-pressed="false">
+                    <span class="sipn-theme-icon" aria-hidden="true">☾</span>
+                    <span class="sipn-theme-label">Dark</span>
+                </button>
                 <?php if ($isLoggedIn) { ?>
                     <div class="dropdown">
                         <button class="btn btn-link nav-link dropdown-toggle d-inline-flex align-items-center gap-2 text-decoration-none p-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -144,3 +182,45 @@ $navIcon = static function (string $name): string {
         </div>
     </div>
 </nav>
+<?php } else { ?>
+<div class="dashboard-layout">
+    <aside class="dashboard-sidebar" aria-label="Navigasi dashboard">
+        <a class="dashboard-brand" href="Dashboard.php">
+            <span class="sipn-brand-mark" aria-hidden="true"><?= $navIcon('school'); ?></span>
+            <span><span class="sipn-brand-name">SIPN</span><span class="sipn-brand-caption">Sistem Informasi Pengelolaan Nilai</span></span>
+        </a>
+        <div class="dashboard-profile">
+            <?php if ($navFotoUrl) { ?>
+                <img src="<?= htmlspecialchars($navFotoUrl, ENT_QUOTES, 'UTF-8'); ?>" class="rounded-circle nav-photo" alt="">
+            <?php } else { ?>
+                <span class="d-inline-flex align-items-center justify-content-center rounded-circle user-avatar fw-semibold flex-shrink-0"><?= htmlspecialchars($navInitial, ENT_QUOTES, 'UTF-8'); ?></span>
+            <?php } ?>
+            <span class="dashboard-profile-name"><?= $navDisplayNameEscaped; ?><small class="dashboard-profile-role"><?= htmlspecialchars($navRole, ENT_QUOTES, 'UTF-8'); ?></small></span>
+        </div>
+        <nav class="dashboard-nav">
+            <a class="active" href="Dashboard.php"><?= $navIcon('dashboard'); ?>Dashboard</a>
+            <?php if ($navRole === 'admin') { ?>
+                <a href="Daftar_user.php"><?= $navIcon('users'); ?>User</a>
+                <a href="Daftar_user.php?role=siswa"><?= $navIcon('student'); ?>Siswa</a>
+                <a href="Daftar_guru.php"><?= $navIcon('teacher'); ?>Guru</a>
+                <a href="MAPEL/Mapel.php"><?= $navIcon('book'); ?>Mata Pelajaran</a>
+                <a href="MENGAJAR/Mengajar.php"><?= $navIcon('teaching'); ?>Data Mengajar</a>
+            <?php } elseif ($navRole === 'guru') { ?>
+                <a href="MAPEL/Mapel.php"><?= $navIcon('book'); ?>Mata Pelajaran</a>
+                <a href="MENGAJAR/Mengajar.php"><?= $navIcon('teaching'); ?>Siswa Diajar</a>
+                <a href="NILAI/Nilai.php"><?= $navIcon('grades'); ?>Kelola Nilai</a>
+            <?php } else { ?>
+                <a href="NILAI/Nilai_saya.php"><?= $navIcon('grades'); ?>Nilai Saya</a>
+                <a href="PROFIL/Profil.php"><?= $navIcon('profile'); ?>Profil</a>
+            <?php } ?>
+            <a href="PROFIL/Edit_profil.php"><?= $navIcon('edit'); ?>Edit Profil</a>
+            <a href="Logout.php"><?= $navIcon('logout'); ?>Logout</a>
+        </nav>
+    </aside>
+    <div class="dashboard-content">
+        <header class="dashboard-topbar">
+            <div><span class="dashboard-topbar-title">Portal Akademik</span><small class="dashboard-topbar-subtitle">Sistem Informasi Pengelolaan Nilai</small></div>
+            <?php if ($navFotoUrl) { ?><img src="<?= htmlspecialchars($navFotoUrl, ENT_QUOTES, 'UTF-8'); ?>" class="rounded-circle nav-photo" alt="">
+            <?php } else { ?><span class="d-inline-flex align-items-center justify-content-center rounded-circle user-avatar fw-semibold"><?= htmlspecialchars($navInitial, ENT_QUOTES, 'UTF-8'); ?></span><?php } ?>
+        </header>
+<?php } ?>

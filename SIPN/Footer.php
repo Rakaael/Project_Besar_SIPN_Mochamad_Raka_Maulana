@@ -4,6 +4,35 @@
     crossorigin="anonymous"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
+    const themeToggle = document.querySelector('[data-theme-toggle]');
+    const root = document.documentElement;
+
+    function updateThemeToggle() {
+        const isDark = root.getAttribute('data-theme') === 'dark';
+        if (!themeToggle) {
+            return;
+        }
+        themeToggle.setAttribute('aria-pressed', String(isDark));
+        themeToggle.setAttribute('aria-label', isDark ? 'Aktifkan tema terang' : 'Aktifkan tema gelap');
+        themeToggle.querySelector('.sipn-theme-icon').textContent = isDark ? '☀' : '☾';
+        themeToggle.querySelector('.sipn-theme-label').textContent = isDark ? 'Light' : 'Dark';
+    }
+
+    if (themeToggle && themeToggle.dataset.themeBound !== 'true') {
+        themeToggle.dataset.themeBound = 'true';
+        updateThemeToggle();
+        themeToggle.addEventListener('click', function () {
+            const nextTheme = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            root.setAttribute('data-theme', nextTheme);
+            try {
+                localStorage.setItem('sipn-theme', nextTheme);
+            } catch (error) {
+                // Tema tetap aktif selama halaman ini terbuka.
+            }
+            updateThemeToggle();
+        });
+    }
+
     const profileImages = document.querySelectorAll('.profile-photo[src]');
     if (!profileImages.length) {
         return;

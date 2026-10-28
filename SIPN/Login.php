@@ -14,6 +14,14 @@ $loggedOut = ($_GET['logout'] ?? '') === '1';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login SIPN</title>
+    <script>
+        (function () {
+            try {
+                var theme = localStorage.getItem('sipn-theme');
+                if (theme === 'dark' || theme === 'light') document.documentElement.setAttribute('data-theme', theme);
+            } catch (error) {}
+        }());
+    </script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         :root { --login-ink: #17345c; --login-blue: #0b4aa2; --login-deep: #073779; --login-border: #d5e5fb; }
@@ -241,7 +249,7 @@ $loggedOut = ($_GET['logout'] ?? '') === '1';
             .login-card form > *, .register-prompt { animation: none !important; }
             .login-card, .login-intro { animation: none; }
         }
-        /* Final login palette: ocean blue with a calm cyan gradient. */
+        /* Warna halaman login disamakan dengan halaman utama. */
         :root { --login-ink: #153b56; --login-blue: #087ea4; --login-deep: #063b63; --login-border: #cfe4ed; }
         body { background: radial-gradient(ellipse at 12% 12%, rgba(34,184,199,.18), transparent 32rem), radial-gradient(ellipse at 90% 85%, rgba(17,112,177,.13), transparent 30rem), linear-gradient(135deg, #e8f7fb 0%, #f8fcfd 58%, #eaf5fa 100%) !important; color: var(--login-ink) !important; }
         body::before { background-image: linear-gradient(rgba(8,126,164,.09) 1px, transparent 1px), linear-gradient(90deg, rgba(8,126,164,.09) 1px, transparent 1px) !important; }
@@ -263,9 +271,18 @@ $loggedOut = ($_GET['logout'] ?? '') === '1';
         .login-submit:hover { background: linear-gradient(105deg, #043d61, #066b91 62%, #13a1b1) !important; }
         .register-link, a { color: #087ea4; }
         .register-link:hover, a:hover { color: #063b63; }
+        .login-theme-toggle { position: fixed; top: 1rem; right: 1rem; z-index: 2; border: 1px solid rgba(8,126,164,.25); border-radius: 999px; padding: .45rem .75rem; background: rgba(255,255,255,.72); color: #064c75; font-weight: 700; cursor: pointer; }
+        html[data-theme="dark"] body { background: #101b24 !important; color: #dceaf0 !important; }
+        html[data-theme="dark"] .login-intro h1, html[data-theme="dark"] .brand-name, html[data-theme="dark"] .login-heading h1 { color: #9de5eb !important; }
+        html[data-theme="dark"] .login-intro-copy, html[data-theme="dark"] .login-features li, html[data-theme="dark"] .login-heading p { color: #b9d9df; }
+        html[data-theme="dark"] .login-card { background: #1c303b !important; border-color: #355460 !important; }
+        html[data-theme="dark"] .login-input .input-group-text, html[data-theme="dark"] .login-input .form-control { background: #13232c !important; border-color: #416572; color: #e4f2f4; }
+        html[data-theme="dark"] .login-theme-toggle { background: #1b303a; border-color: #416572; color: #b9edf2; }
+        html[data-theme="dark"] .alert-info { color: #b8edf2; background: #1c414a; border-color: #39717a; }
     </style>
 </head>
 <body>
+<button class="login-theme-toggle" type="button" data-login-theme-toggle aria-label="Aktifkan tema gelap">☾ Dark</button>
 <main class="container login-shell d-flex align-items-center justify-content-center py-5">
     <div class="login-layout">
     <section class="login-intro" aria-label="Tentang SIPN">
@@ -326,5 +343,23 @@ $loggedOut = ($_GET['logout'] ?? '') === '1';
     </section>
     </div>
 </main>
+<script>
+    (function () {
+        var button = document.querySelector('[data-login-theme-toggle]');
+        var root = document.documentElement;
+        function update() {
+            var dark = root.getAttribute('data-theme') === 'dark';
+            button.textContent = dark ? '☀ Light' : '☾ Dark';
+            button.setAttribute('aria-label', dark ? 'Aktifkan tema terang' : 'Aktifkan tema gelap');
+        }
+        update();
+        button.addEventListener('click', function () {
+            var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            root.setAttribute('data-theme', next);
+            try { localStorage.setItem('sipn-theme', next); } catch (error) {}
+            update();
+        });
+    }());
+</script>
 </body>
 </html>
