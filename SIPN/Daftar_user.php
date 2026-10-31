@@ -1,15 +1,10 @@
 <?php
-require_once __DIR__ . '/Auth.php'; wajib_role(['admin', 'siswa']);
+require_once __DIR__ . '/Auth.php'; wajib_role(['admin']);
 require_once __DIR__ . '/Koneksi.php';
 $isAdmin = $_SESSION['role'] === 'admin';
-$daftarSiswa = !$isAdmin || ($_GET['role'] ?? '') === 'siswa';
+$daftarSiswa = ($_GET['role'] ?? '') === 'siswa';
 $csrfToken = $isAdmin ? token_csrf() : '';
 $kelasSaatIni = '';
-// Siswa hanya melihat daftar teman sekelas; kelas ditentukan dari profil sesi aktif.
-if ($daftarSiswa && !$isAdmin) {
-    $profilSaya = profil_saya($koneksi);
-    $kelasSaatIni = trim((string) ($profilSaya['kelas'] ?? ''));
-}
 ?>
 
 <!doctype html>
@@ -20,7 +15,7 @@ if ($daftarSiswa && !$isAdmin) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $daftarSiswa ? ($isAdmin ? 'Daftar Siswa' : 'Daftar Siswa Kelas') : 'Daftar User'; ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/navbar.css?v=13">
+    <link rel="stylesheet" href="assets/css/navbar.css?v=14">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
 </head>
 

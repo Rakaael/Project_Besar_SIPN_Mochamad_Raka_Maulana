@@ -2,7 +2,7 @@
 // Admin mengelola seluruh penugasan; guru hanya melihat kelas dan siswa yang diajarnya.
 require_once dirname(__DIR__) . '/Koneksi.php';
 require_once dirname(__DIR__) . '/Auth.php';
-wajib_role(['admin', 'guru']);
+wajib_role(['admin']);
 $isAdmin = $_SESSION['role'] === 'admin';
 $guruId = $isAdmin ? 0 : (int) (profil_saya($koneksi)['id'] ?? 0);
 
@@ -26,9 +26,6 @@ require_once dirname(__DIR__) . '/Navbar.php';
         ['added' => 'Data mengajar berhasil ditambahkan.', 'updated' => 'Data mengajar berhasil diperbarui.', 'deleted' => 'Data mengajar berhasil dihapus.'],
         ['not_found' => 'Data mengajar tidak ditemukan.', 'has_grades' => 'Penugasan tidak dapat dihapus karena sudah memiliki nilai. Hapus nilai terlebih dahulu jika memang perlu.', 'failed' => 'Operasi gagal. Silakan coba lagi.']
     ); ?>
-    <?php if ($isAdmin) { ?><div class="d-flex justify-content-end mb-3">
-        <a class="btn btn-primary" href="MENGAJAR/Tambah_mengajar.php">Tambah Mengajar</a>
-    </div><?php } ?>
     <table id="tabelMengajar" class="table table-striped table-bordered w-100">
         <thead>
             <tr>

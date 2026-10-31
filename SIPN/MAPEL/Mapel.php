@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__DIR__) . '/Auth.php'; wajib_role(['admin', 'guru']);
+require_once dirname(__DIR__) . '/Auth.php'; wajib_role(['admin']);
 require_once dirname(__DIR__) . '/Koneksi.php';
 $isAdmin = $_SESSION['role'] === 'admin';
 $guruId = $isAdmin ? 0 : (int) (profil_saya($koneksi)['id'] ?? 0);
@@ -27,7 +27,7 @@ $error = $errorMessages[$_GET['error'] ?? ''] ?? null;
     <base href="../">
     <title>Daftar Mapel</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/navbar.css?v=13">
+    <link rel="stylesheet" href="assets/css/navbar.css?v=14">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
 </head>
 <body>
@@ -39,11 +39,6 @@ $error = $errorMessages[$_GET['error'] ?? ''] ?? null;
     <?php } ?>
     <?php if ($error) { ?>
         <div class="alert alert-danger" role="alert"><?= htmlspecialchars($error); ?></div>
-    <?php } ?>
-    <?php if ($isAdmin) { ?>
-    <div class="d-flex justify-content-end mb-3">
-        <a class="btn btn-primary" href="MAPEL/Tambah_mapel.php">Tambah Mapel</a>
-    </div>
     <?php } ?>
     <table id="tabelMapel" class="table table-striped table-bordered w-100">
         <thead>

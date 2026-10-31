@@ -2,6 +2,12 @@
 if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
+if (!function_exists('h')) {
+    function h($nilai)
+    {
+        return htmlspecialchars((string) $nilai, ENT_QUOTES, 'UTF-8');
+    }
+}
 $isLoggedIn = isset($_SESSION['user_id']);
 $navRole = $_SESSION['role'] ?? '';
 $navDisplayName = trim((string) ($_SESSION['username'] ?? ''));
@@ -17,7 +23,10 @@ if (preg_match('/^./us', $navDisplayName, $initialMatch)) {
 }
 $navDisplayNameEscaped = htmlspecialchars($navDisplayName, ENT_QUOTES, 'UTF-8');
 $navFotoUrl = $isLoggedIn && function_exists('foto_profil_url') ? foto_profil_url((int) $_SESSION['user_id']) : null;
-$isDashboard = $isDashboard ?? basename($_SERVER['PHP_SELF']) === 'Dashboard.php';
+$navScriptPath = str_replace('\\', '/', (string) ($_SERVER['SCRIPT_NAME'] ?? ''));
+$navAppRoot = str_contains($navScriptPath, '/SIPN/') ? substr($navScriptPath, 0, strpos($navScriptPath, '/SIPN/') + 6) : '/';
+$navHref = static fn(string $path): string => $navAppRoot . ltrim($path, '/');
+$navCurrentPage = basename($navScriptPath);
 // Peta ikon SVG dipakai ulang oleh tautan navigasi sesuai role dan status login.
 $navIcon = static function (string $name): string {
     $paths = [
@@ -28,6 +37,7 @@ $navIcon = static function (string $name): string {
         'student' => '<circle cx="12" cy="8" r="3.5"/><path d="M5 20a7 7 0 0 1 14 0M8 3.8a6.5 6.5 0 0 1 8 0"/>',
         'teacher' => '<path d="M4 20v-1.5a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4V20"/><circle cx="10" cy="7" r="3.5"/><path d="m16 8 2 2 4-4"/>',
         'book' => '<path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21V5.5Z"/><path d="M4 17.5A2.5 2.5 0 0 1 6.5 15H20M8 7h8"/>',
+        'open-book' => '<path d="M12 6.5C10.4 5.1 8.1 4.3 5 4.3 3.9 4.3 3 5.2 3 6.3v11.4c0 1.1.9 2 2 2 3.1 0 5.4.8 7 2.2 1.6-1.4 3.9-2.2 7-2.2 1.1 0 2-.9 2-2V6.3c0-1.1-.9-2-2-2-3.1 0-5.4.8-7 2.2Z"/><path d="M12 6.5v15.4"/>',
         'teaching' => '<rect x="3" y="4" width="18" height="13" rx="2"/><path d="m8 21 4-4 4 4M8 9h8M8 12h5"/>',
         'grades' => '<path d="M5 3h14v18l-7-4-7 4V3Z"/><path d="m9 10 2 2 4-4"/>',
         'list' => '<path d="M9 6h11M9 12h11M9 18h11"/><path d="M4 6h.01M4 12h.01M4 18h.01"/>',
@@ -36,6 +46,8 @@ $navIcon = static function (string $name): string {
         'edit' => '<path d="m15 5 4 4M4 20l4.5-1 10-10a2.1 2.1 0 0 0-3-3l-10 10L4 20Z"/>',
         'logout' => '<path d="M10 17 15 12 10 7M15 12H3"/><path d="M12 3h6a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-6"/>',
         'login' => '<path d="M14 17 19 12 14 7M19 12H7"/><path d="M11 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h6"/>',
+        'calendar' => '<rect x="3" y="4.5" width="18" height="16" rx="2"/><path d="M16 3v3M8 3v3M3 9h18"/>',
+        'light' => '<path d="M9 18h6M10 21h4M8.5 14.5A6 6 0 1 1 15.5 14c-.8.6-1.3 1.5-1.5 2.5h-4c-.2-1-.7-1.9-1.5-2.5Z"/>',
     ];
     return '<svg class="sipn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">' . $paths[$name] . '</svg>';
 };
@@ -54,6 +66,18 @@ $navIcon = static function (string $name): string {
             // Tema default tetap digunakan jika localStorage tidak tersedia.
         }
         document.addEventListener('DOMContentLoaded', function () {
+            var studyTip = document.querySelector('[data-sidebar-study-tip]');
+            if (studyTip) {
+                var tips = [
+                    'Konsisten belajar setiap hari untuk hasil yang lebih baik.',
+                    'Pahami konsepnya, jangan hanya menghafal.',
+                    'Buat catatan kecil agar materi mudah diingat.',
+                    'Kerjakan latihan soal untuk menguji pemahamanmu.',
+                    'Atur waktu belajar dan istirahat dengan seimbang.',
+                    'Jangan takut bertanya jika ada materi yang belum dipahami.'
+                ];
+                studyTip.textContent = tips[Math.floor(Math.random() * tips.length)];
+            }
             var toggle = document.querySelector('[data-theme-toggle]');
             var root = document.documentElement;
             if (!toggle || toggle.dataset.themeBound === 'true') return;
@@ -75,8 +99,7 @@ $navIcon = static function (string $name): string {
         });
     }());
 </script>
-<?php if (!$isDashboard) { ?>
-<nav class="navbar navbar-expand-lg navbar-dark sipn-navbar">
+<?php if (false) { ?><nav class="navbar navbar-expand-lg navbar-dark sipn-navbar">
     <div class="container-fluid">
         <a class="navbar-brand" href="Dashboard.php">
             <span class="sipn-brand-mark" aria-hidden="true"><?= $navIcon('school'); ?></span>
@@ -182,45 +205,129 @@ $navIcon = static function (string $name): string {
         </div>
     </div>
 </nav>
-<?php } else { ?>
-<div class="dashboard-layout">
-    <aside class="dashboard-sidebar" aria-label="Navigasi dashboard">
-        <a class="dashboard-brand" href="Dashboard.php">
-            <span class="sipn-brand-mark" aria-hidden="true"><?= $navIcon('school'); ?></span>
-            <span><span class="sipn-brand-name">SIPN</span><span class="sipn-brand-caption">Sistem Informasi Pengelolaan Nilai</span></span>
-        </a>
-        <div class="dashboard-profile">
-            <?php if ($navFotoUrl) { ?>
-                <img src="<?= htmlspecialchars($navFotoUrl, ENT_QUOTES, 'UTF-8'); ?>" class="rounded-circle nav-photo" alt="">
-            <?php } else { ?>
-                <span class="d-inline-flex align-items-center justify-content-center rounded-circle user-avatar fw-semibold flex-shrink-0"><?= htmlspecialchars($navInitial, ENT_QUOTES, 'UTF-8'); ?></span>
-            <?php } ?>
-            <span class="dashboard-profile-name"><?= $navDisplayNameEscaped; ?><small class="dashboard-profile-role"><?= htmlspecialchars($navRole, ENT_QUOTES, 'UTF-8'); ?></small></span>
-        </div>
-        <nav class="dashboard-nav">
-            <a class="active" href="Dashboard.php"><?= $navIcon('dashboard'); ?>Dashboard</a>
-            <?php if ($navRole === 'admin') { ?>
-                <a href="Daftar_user.php"><?= $navIcon('users'); ?>User</a>
-                <a href="Daftar_user.php?role=siswa"><?= $navIcon('student'); ?>Siswa</a>
-                <a href="Daftar_guru.php"><?= $navIcon('teacher'); ?>Guru</a>
-                <a href="MAPEL/Mapel.php"><?= $navIcon('book'); ?>Mata Pelajaran</a>
-                <a href="MENGAJAR/Mengajar.php"><?= $navIcon('teaching'); ?>Data Mengajar</a>
-            <?php } elseif ($navRole === 'guru') { ?>
-                <a href="MAPEL/Mapel.php"><?= $navIcon('book'); ?>Mata Pelajaran</a>
-                <a href="MENGAJAR/Mengajar.php"><?= $navIcon('teaching'); ?>Siswa Diajar</a>
-                <a href="NILAI/Nilai.php"><?= $navIcon('grades'); ?>Kelola Nilai</a>
-            <?php } else { ?>
-                <a href="NILAI/Nilai_saya.php"><?= $navIcon('grades'); ?>Nilai Saya</a>
-                <a href="PROFIL/Profil.php"><?= $navIcon('profile'); ?>Profil</a>
-            <?php } ?>
-            <a href="PROFIL/Edit_profil.php"><?= $navIcon('edit'); ?>Edit Profil</a>
-            <a href="Logout.php"><?= $navIcon('logout'); ?>Logout</a>
-        </nav>
-    </aside>
-    <div class="dashboard-content">
-        <header class="dashboard-topbar">
-            <div><span class="dashboard-topbar-title">Portal Akademik</span><small class="dashboard-topbar-subtitle">Sistem Informasi Pengelolaan Nilai</small></div>
-            <?php if ($navFotoUrl) { ?><img src="<?= htmlspecialchars($navFotoUrl, ENT_QUOTES, 'UTF-8'); ?>" class="rounded-circle nav-photo" alt="">
-            <?php } else { ?><span class="d-inline-flex align-items-center justify-content-center rounded-circle user-avatar fw-semibold"><?= htmlspecialchars($navInitial, ENT_QUOTES, 'UTF-8'); ?></span><?php } ?>
-        </header>
 <?php } ?>
+<div class="portal-layout">
+    <aside class="portal-sidebar" aria-label="Navigasi utama">
+        <a class="portal-brand" href="<?= h($navHref('Dashboard.php')); ?>">
+            <span class="portal-brand-mark" aria-hidden="true"><?= $navIcon('school'); ?></span>
+            <span><strong>SIPN</strong><small>Sistem Informasi Pengelolaan Nilai</small></span>
+        </a>
+        <?php if ($isLoggedIn) { ?>
+        <div class="portal-profile">
+            <?php if ($navFotoUrl) { ?><img src="<?= htmlspecialchars($navFotoUrl, ENT_QUOTES, 'UTF-8'); ?>" class="rounded-circle nav-photo" alt="">
+            <?php } else { ?><span class="portal-avatar"><?= htmlspecialchars($navInitial, ENT_QUOTES, 'UTF-8'); ?></span><?php } ?>
+            <span><strong><?= $navDisplayNameEscaped; ?></strong><small><?= htmlspecialchars(ucfirst($navRole), ENT_QUOTES, 'UTF-8'); ?></small></span>
+        </div>
+        <?php } ?>
+        <div class="portal-section-label">Menu Utama</div>
+        <nav class="portal-nav">
+            <?php $portalLink = static function (string $path, string $label, string $icon, array $pages = []) use ($navHref, $navCurrentPage, $navIcon): void { $active = in_array($navCurrentPage, $pages ?: [basename($path)], true); ?>
+                <a class="portal-nav-link<?= $active ? ' is-active' : ''; ?>" href="<?= h($navHref($path)); ?>"><?= $navIcon($icon); ?><span><?= h($label); ?></span></a>
+            <?php }; ?>
+            <?php if ($isLoggedIn) { ?>
+                <?php $portalLink('Dashboard.php', 'Dashboard', 'dashboard'); ?>
+                <?php if ($navRole === 'admin') { ?>
+                    <div class="dropdown portal-side-dropdown">
+                        <button class="portal-side-dropdown-toggle<?= in_array($navCurrentPage, ['Daftar_user.php', 'Daftar_user2.php', 'Tambah_user.php', 'Tambah_user2.php', 'edit_user.php'], true) ? ' is-active' : ''; ?> dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="<?= in_array($navCurrentPage, ['Daftar_user.php', 'Daftar_user2.php', 'Tambah_user.php', 'Tambah_user2.php', 'edit_user.php'], true) ? 'true' : 'false'; ?>">
+                            <?= $navIcon('users'); ?><span>User</span>
+                        </button>
+                        <ul class="dropdown-menu<?= in_array($navCurrentPage, ['Daftar_user.php', 'Daftar_user2.php', 'Tambah_user.php', 'Tambah_user2.php', 'edit_user.php'], true) ? ' show' : ''; ?>">
+                            <?php $portalLink('Daftar_user.php', 'Daftar User', 'list', ['Daftar_user.php', 'Daftar_user2.php', 'edit_user.php']); ?>
+                            <li><hr class="dropdown-divider"></li>
+                            <?php $portalLink('Tambah_user.php', 'Tambah User', 'add'); ?>
+                        </ul>
+                    </div>
+                    <div class="dropdown portal-side-dropdown">
+                        <button class="portal-side-dropdown-toggle<?= in_array($navCurrentPage, ['Daftar_guru.php', 'Tambah_user3.php'], true) ? ' is-active' : ''; ?> dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="<?= in_array($navCurrentPage, ['Daftar_guru.php', 'Tambah_user3.php'], true) ? 'true' : 'false'; ?>">
+                            <?= $navIcon('teacher'); ?><span>Guru</span>
+                        </button>
+                        <ul class="dropdown-menu<?= in_array($navCurrentPage, ['Daftar_guru.php', 'Tambah_user3.php'], true) ? ' show' : ''; ?>">
+                            <?php $portalLink('Daftar_guru.php', 'Daftar Guru', 'list'); ?>
+                            <?php $portalLink('Tambah_user3.php?role=guru', 'Tambah Guru', 'add', ['Tambah_user3.php']); ?>
+                        </ul>
+                    </div>
+                    <div class="dropdown portal-side-dropdown">
+                        <button class="portal-side-dropdown-toggle<?= in_array($navCurrentPage, ['Mapel.php', 'Tambah_mapel.php', 'Edit_mapel.php'], true) ? ' is-active' : ''; ?> dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="<?= in_array($navCurrentPage, ['Mapel.php', 'Tambah_mapel.php', 'Edit_mapel.php'], true) ? 'true' : 'false'; ?>">
+                            <?= $navIcon('book'); ?><span>Mata Pelajaran</span>
+                        </button>
+                        <ul class="dropdown-menu<?= in_array($navCurrentPage, ['Mapel.php', 'Tambah_mapel.php', 'Edit_mapel.php'], true) ? ' show' : ''; ?>">
+                            <?php $portalLink('MAPEL/Mapel.php', 'Daftar Mapel', 'list', ['Mapel.php', 'Edit_mapel.php']); ?>
+                            <li><hr class="dropdown-divider"></li>
+                            <?php $portalLink('MAPEL/Tambah_mapel.php', 'Tambah Mapel', 'add'); ?>
+                        </ul>
+                    </div>
+                    <div class="dropdown portal-side-dropdown">
+                        <button class="portal-side-dropdown-toggle<?= in_array($navCurrentPage, ['Mengajar.php', 'Tambah_mengajar.php', 'Edit_mengajar.php', 'Edit_kelompok.php'], true) ? ' is-active' : ''; ?> dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="<?= in_array($navCurrentPage, ['Mengajar.php', 'Tambah_mengajar.php', 'Edit_mengajar.php', 'Edit_kelompok.php'], true) ? 'true' : 'false'; ?>">
+                            <?= $navIcon('teaching'); ?><span>Data Mengajar</span>
+                        </button>
+                        <ul class="dropdown-menu<?= in_array($navCurrentPage, ['Mengajar.php', 'Tambah_mengajar.php', 'Edit_mengajar.php', 'Edit_kelompok.php'], true) ? ' show' : ''; ?>">
+                            <?php $portalLink('MENGAJAR/Mengajar.php', 'Daftar Mengajar', 'list', ['Mengajar.php', 'Edit_mengajar.php', 'Edit_kelompok.php']); ?>
+                            <li><hr class="dropdown-divider"></li>
+                            <?php $portalLink('MENGAJAR/Tambah_mengajar.php', 'Tambah Mengajar', 'add'); ?>
+                        </ul>
+                    </div>
+                <?php } elseif ($navRole === 'guru') { ?>
+                    <?php $portalLink('Daftar_guru.php', 'Daftar Guru', 'teacher'); ?>
+                    <div class="dropdown portal-side-dropdown">
+                        <button class="portal-side-dropdown-toggle<?= in_array($navCurrentPage, ['Nilai.php', 'Tambah_nilai.php', 'Edit_nilai.php'], true) ? ' is-active' : ''; ?> dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="<?= in_array($navCurrentPage, ['Nilai.php', 'Tambah_nilai.php', 'Edit_nilai.php'], true) ? 'true' : 'false'; ?>">
+                            <?= $navIcon('grades'); ?><span>Kelola Nilai</span>
+                        </button>
+                        <ul class="dropdown-menu<?= in_array($navCurrentPage, ['Nilai.php', 'Tambah_nilai.php', 'Edit_nilai.php'], true) ? ' show' : ''; ?>">
+                            <?php $portalLink('NILAI/Nilai.php', 'Daftar Nilai', 'list', ['Nilai.php', 'Edit_nilai.php']); ?>
+                            <li><hr class="dropdown-divider"></li>
+                            <?php $portalLink('NILAI/Tambah_nilai.php', 'Input Nilai', 'add', ['Tambah_nilai.php']); ?>
+                        </ul>
+                    </div>
+                <?php } elseif ($navRole === 'siswa') { ?>
+                    <?php $portalLink('NILAI/Nilai_saya.php', 'Nilai Saya', 'grades'); ?>
+                <?php } ?>
+            <?php } else { ?>
+                <?php $portalLink('Login.php', 'Masuk', 'login'); ?>
+            <?php } ?>
+        </nav>
+        <?php if ($isLoggedIn && in_array($navRole, ['admin', 'guru'], true)) { ?>
+            <section class="sidebar-education-quote" aria-label="Quote pendidikan">
+                <div class="sidebar-education-quote-icon" aria-hidden="true"><?= $navIcon('open-book'); ?></div>
+                <p><?= $navRole === 'admin' ? '“Selalu ada ruang untuk belajar dan berkembang.”' : '“Pendidikan adalah investasi terbaik untuk masa depan.”'; ?></p>
+            </section>
+        <?php } ?>
+        <?php if ($isLoggedIn && $navRole === 'siswa' && in_array($navCurrentPage, ['Dashboard.php', 'Nilai_saya.php'], true)) {
+            $navMapelDiikuti = isset($siswaMapel) && is_array($siswaMapel) ? count($siswaMapel) : (isset($data) && is_array($data) ? count($data) : null);
+        ?>
+            <div class="portal-sidebar-student-extras">
+                <section class="sidebar-info-panel" aria-labelledby="sidebar-info-title">
+                    <div class="sidebar-panel-heading" id="sidebar-info-title"><span>Informasi</span><small>SIPN</small></div>
+                    <div class="sidebar-info-item"><span class="sidebar-info-icon"><?= $navIcon('calendar'); ?></span><span><small>Tahun Ajaran</small><strong>Belum tersedia</strong></span></div>
+                    <div class="sidebar-info-item"><span class="sidebar-info-icon"><?= $navIcon('calendar'); ?></span><span><small>Semester</small><strong>Belum tersedia</strong></span></div>
+                    <div class="sidebar-info-item"><span class="sidebar-info-icon"><?= $navIcon('book'); ?></span><span><small>Mapel Diikuti</small><strong><?= $navMapelDiikuti === null ? 'Belum tersedia' : h($navMapelDiikuti); ?></strong></span></div>
+                </section>
+                <section class="sidebar-study-tip" aria-labelledby="sidebar-tip-title">
+                    <div class="sidebar-tip-heading"><span class="sidebar-tip-icon"><?= $navIcon('light'); ?></span><strong id="sidebar-tip-title">Tips Belajar</strong></div>
+                    <p data-sidebar-study-tip>Konsisten belajar setiap hari untuk hasil yang lebih baik.</p>
+                </section>
+            </div>
+        <?php } ?>
+    </aside>
+    <div class="portal-main">
+        <header class="portal-topbar">
+            <div><strong>SIPN</strong><small>Portal Akademik</small></div>
+            <div class="portal-topbar-actions">
+                <button class="sipn-theme-toggle portal-theme-toggle" type="button" data-theme-toggle aria-label="Aktifkan tema gelap" aria-pressed="false">
+                    <span class="sipn-theme-icon" aria-hidden="true">â˜¾</span>
+                    <span class="sipn-theme-label">Dark</span>
+                </button>
+            <div class="dropdown portal-user-menu">
+                <button class="portal-topbar-user dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <?php if ($navFotoUrl) { ?><img src="<?= htmlspecialchars($navFotoUrl, ENT_QUOTES, 'UTF-8'); ?>" class="rounded-circle nav-photo" alt="">
+                    <?php } else { ?><span class="portal-avatar portal-avatar-small"><?= htmlspecialchars($navInitial, ENT_QUOTES, 'UTF-8'); ?></span><?php } ?>
+                    <span><?= $navDisplayNameEscaped; ?></span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item" href="<?= h($navHref('PROFIL/Profil.php')); ?>"><?= $navIcon('profile'); ?>Profil</a></li>
+                    <li><a class="dropdown-item" href="<?= h($navHref('PROFIL/Edit_profil.php')); ?>"><?= $navIcon('edit'); ?>Edit Profil</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item text-danger" href="<?= h($navHref('Logout.php')); ?>"><?= $navIcon('logout'); ?>Logout</a></li>
+                </ul>
+            </div>
+            </div>
+        </header>

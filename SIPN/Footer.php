@@ -1,3 +1,4 @@
+<?php if (isset($portalLink)) { ?></div></div><?php } ?>
 <!-- Footer.php hanya berisi script Bootstrap yang dibutuhkan agar komponen UI seperti navbar bisa berfungsi. --><?php /* Fungsi JavaScript di bawah memperbesar foto profil dan menangani penutupannya. */ ?>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"

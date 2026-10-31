@@ -15,7 +15,7 @@ $error = $errorMessages[$_GET['error'] ?? ''] ?? null;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daftar Siswa</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/navbar.css?v=13">
+    <link rel="stylesheet" href="assets/css/navbar.css?v=14">
 </head>
 <body>
 <?php require_once __DIR__ . '/Navbar.php'; ?>
@@ -41,7 +41,6 @@ $error = $errorMessages[$_GET['error'] ?? ''] ?? null;
                             <input type="text" id="nama" name="nama" maxlength="100" class="form-control" placeholder="Masukkan nama lengkap" required>
                         </div>
 
-                        <div class="mb-3">
                         <fieldset class="mb-4">
                             <legend class="form-label d-block mb-2">Jenis Kelamin</legend>
                             <div class="d-flex gap-4">

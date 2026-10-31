@@ -54,7 +54,7 @@ $selected = fn($value, $option) => ($value ?? '') === $option ? 'selected' : '';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit User</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/navbar.css?v=13">
+    <link rel="stylesheet" href="assets/css/navbar.css?v=14">
     <style>
         body { background-color: #f4f6f9; min-height: 100vh; }
         .wrapper { max-width: 700px; margin: 50px auto; background: #fff; border-radius: 12px; box-shadow: 0 4px 18px rgba(0,0,0,0.08); padding: 30px; }
