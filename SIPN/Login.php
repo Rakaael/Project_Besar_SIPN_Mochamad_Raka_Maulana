@@ -352,7 +352,7 @@ $loggedOut = ($_GET['logout'] ?? '') === '1';
          @media (max-width: 575.98px) { .login-theme-toggle { top: .75rem; right: .75rem; } .login-shell { padding-top: 4rem !important; } .login-card .card-body { padding: 1.65rem !important; } }
 
     </style>
-    <link rel="stylesheet" href="assets/css/academic-theme.css?v=5">
+    <link rel="stylesheet" href="assets/css/academic-theme.css?v=6">
 </head>
 <body>
 <button class="login-theme-toggle" type="button" data-login-theme-toggle aria-label="Aktifkan tema gelap">☾ Dark</button>

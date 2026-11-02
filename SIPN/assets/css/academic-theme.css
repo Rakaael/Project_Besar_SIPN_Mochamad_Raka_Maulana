@@ -956,6 +956,21 @@ html[data-theme="dark"] body:has(.login-shell) .alert-info {
     color: var(--academic-ink) !important;
 }
 
+body:has(.portal-layout) .sidebar-info-panel .sidebar-panel-heading,
+body:has(.portal-layout) .sidebar-study-tip .sidebar-tip-heading,
+body:has(.portal-layout) .sidebar-info-item strong {
+    color: var(--academic-ink) !important;
+}
+
+body:has(.portal-layout) .sidebar-info-panel .sidebar-panel-heading small,
+body:has(.portal-layout) .sidebar-info-item small {
+    color: var(--academic-muted) !important;
+}
+
+body:has(.portal-layout) .sidebar-study-tip p {
+    color: var(--academic-ink) !important;
+}
+
 html:not([data-theme="dark"]) body:has(.portal-layout) {
     background: var(--academic-bg) !important;
     color: var(--academic-ink) !important;

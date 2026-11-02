@@ -100,7 +100,7 @@ $navIcon = static function (string $name): string {
     }());
 </script>
 <?php if ($navCurrentPage !== 'Dashboard.php') { ?>
-<link rel="stylesheet" href="<?= h($navHref('assets/css/academic-theme.css')); ?>?v=5">
+<link rel="stylesheet" href="<?= h($navHref('assets/css/academic-theme.css')); ?>?v=6">
 <?php } ?>
 <?php if (false) { ?><nav class="navbar navbar-expand-lg navbar-dark sipn-navbar">
     <div class="container-fluid">

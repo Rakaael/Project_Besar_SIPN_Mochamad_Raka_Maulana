@@ -841,7 +841,7 @@ require_once __DIR__ . '/Navbar.php';
     html[data-theme="light"] .student-tip p { color: #385b7e; }
     html[data-theme="light"] .student-grade strong { color: #078acb; }
 </style>
-<link rel="stylesheet" href="<?= h($navHref('assets/css/academic-theme.css')); ?>?v=5">
+<link rel="stylesheet" href="<?= h($navHref('assets/css/academic-theme.css')); ?>?v=6">
 <main class="container py-5 dashboard-page">
     <h1 class="judul">Dashboard <?= h(ucfirst($role)); ?></h1>
     <?php if ($role === 'admin') { ?>
