@@ -269,7 +269,7 @@ require_once __DIR__ . '/Navbar.php';
     .teacher-welcome-art { position: relative; z-index: 1; display: flex; align-items: center; gap: .55rem; margin-right: 2rem; }
     .teacher-welcome-art span { display: grid; width: 4.4rem; height: 4.4rem; place-items: center; border: 2px solid rgba(170,246,248,.7); border-radius: 8px; background: rgba(3,38,73,.55); transform: rotate(-4deg); box-shadow: 8px 8px 0 rgba(3,38,73,.25); }
     .teacher-welcome-art .sipn-icon { width: 2.2rem; height: 2.2rem; color: #d9fbff; }
-    .teacher-welcome-art i { display: block; width: 2.8rem; height: .7rem; border-radius: 3px; background: #f7c75d; box-shadow: 0 -.9rem 0 #f28f5b, 0 .9rem 0 #e9f6ff; transform: translateX(-.3rem); }
+    .teacher-welcome-art i { display: block; width: 2.8rem; height: .7rem; border-radius: 3px; background: linear-gradient(90deg, #087eba, #12b9e8); box-shadow: 0 -.9rem 0 #075a9c, 0 .9rem 0 #08bceb; transform: translateX(-.3rem); }
     .teacher-stat-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .75rem !important; margin-inline: 0; }
     .teacher-stat-row .teacher-stat-col { width: auto; max-width: none; padding-inline: 0; }
     .teacher-stat-row .stat { min-height: 94px; padding: 1rem 1.1rem 1rem 4.35rem; border: 1px solid rgba(34,211,238,.55); border-radius: 11px; background: linear-gradient(135deg, #06466f, #087ea4) !important; box-shadow: 0 9px 20px rgba(0,0,0,.2); }
@@ -329,7 +329,7 @@ require_once __DIR__ . '/Navbar.php';
     .admin-welcome-art { position: relative; z-index: 1; display: flex; align-items: center; gap: .55rem; margin-right: 2rem; }
     .admin-welcome-art span { display: grid; width: 4.4rem; height: 4.4rem; place-items: center; border: 2px solid rgba(170,246,248,.7); border-radius: 8px; background: rgba(3,38,73,.55); transform: rotate(-4deg); box-shadow: 8px 8px 0 rgba(3,38,73,.25); }
     .admin-welcome-art .sipn-icon { width: 2.2rem; height: 2.2rem; color: #d9fbff; }
-    .admin-welcome-art i, .admin-welcome-art b { display: block; width: 2.8rem; height: .7rem; border-radius: 3px; background: linear-gradient(90deg, #f7c75d, #fff0a6); box-shadow: 0 -.9rem 0 #f28f5b, 0 .9rem 0 #e9f6ff; transform: translateX(-.3rem); }
+    .admin-welcome-art i, .admin-welcome-art b { display: block; width: 2.8rem; height: .7rem; border-radius: 3px; background: linear-gradient(90deg, #087eba, #12b9e8); box-shadow: 0 -.9rem 0 #075a9c, 0 .9rem 0 #08bceb; transform: translateX(-.3rem); }
     .admin-welcome-art b { display: none; }
     .admin-stat-row { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: .75rem !important; margin-inline: 0; }
     .admin-stat-row .admin-stat-col { width: auto; max-width: none; padding-inline: 0; }
@@ -479,9 +479,9 @@ require_once __DIR__ . '/Navbar.php';
         border-bottom-color: #cfe4ed;
     }
     html[data-theme="light"] .admin-users-table td { border-bottom-color: #d9eaf1; }
-    html[data-theme="light"] .admin-role-badge.admin { color: #6546a5; background: #f0eafe; }
-    html[data-theme="light"] .admin-role-badge.guru { color: #087ea4; background: #e2f6fb; }
-    html[data-theme="light"] .admin-role-badge.siswa { color: #187347; background: #e5f6ec; }
+    html[data-theme="light"] .admin-role-badge.admin,
+    html[data-theme="light"] .admin-role-badge.guru,
+    html[data-theme="light"] .admin-role-badge.siswa { color: var(--academic-primary); background: var(--academic-blue-soft); }
     html[data-theme="light"] .admin-view-all { color: #087ea4; }
     html[data-theme="light"] .admin-view-all:hover { color: #064c75; }
 
@@ -841,6 +841,7 @@ require_once __DIR__ . '/Navbar.php';
     html[data-theme="light"] .student-tip p { color: #385b7e; }
     html[data-theme="light"] .student-grade strong { color: #078acb; }
 </style>
+<link rel="stylesheet" href="<?= h($navHref('assets/css/academic-theme.css')); ?>?v=5">
 <main class="container py-5 dashboard-page">
     <h1 class="judul">Dashboard <?= h(ucfirst($role)); ?></h1>
     <?php if ($role === 'admin') { ?>
@@ -979,20 +980,30 @@ require_once __DIR__ . '/Navbar.php';
         var root = document.documentElement;
         var activityChart = null;
         var academicChart = null;
+        function academicColor(name, fallback) {
+            return getComputedStyle(root).getPropertyValue(name).trim() || fallback;
+        }
+        function academicChartPalette() {
+            return ['--academic-chart-1', '--academic-chart-2', '--academic-chart-3', '--academic-chart-4', '--academic-chart-5']
+                .map(function (name) { return academicColor(name, '#087eba'); });
+        }
         function updateChartTheme() {
             var lightTheme = root.getAttribute('data-theme') === 'light';
-            var chartText = lightTheme ? '#66809a' : '#9fc4d1';
-            var chartGrid = lightTheme ? 'rgba(49,85,119,.12)' : 'rgba(148,163,184,.08)';
+            var chartText = academicColor('--academic-muted', lightTheme ? '#58728d' : '#afc7e5');
+            var chartGrid = lightTheme ? 'rgba(8,126,186,.12)' : 'rgba(175,199,229,.12)';
             if (activityChart) {
+                activityChart.data.datasets[0].backgroundColor = academicColor('--academic-secondary', '#12b9e8');
+                activityChart.data.datasets[0].hoverBackgroundColor = academicColor('--academic-button', '#08bceb');
                 activityChart.options.scales.x.ticks.color = chartText;
                 activityChart.options.scales.x.grid.color = chartGrid;
                 activityChart.options.scales.y.ticks.color = chartText;
-                activityChart.options.scales.y.grid.color = lightTheme ? 'rgba(49,85,119,.16)' : 'rgba(148,163,184,.14)';
+                activityChart.options.scales.y.grid.color = lightTheme ? 'rgba(8,126,186,.16)' : 'rgba(175,199,229,.16)';
                 activityChart.update();
             }
             if (academicChart) {
-                academicChart.data.datasets[0].borderColor = lightTheme ? '#f7fbff' : '#0d2233';
-                academicChart.options.plugins.legend.labels.color = lightTheme ? '#526b80' : '#cfe8f0';
+                academicChart.data.datasets[0].backgroundColor = academicChartPalette();
+                academicChart.data.datasets[0].borderColor = academicColor('--academic-surface', '#ffffff');
+                academicChart.options.plugins.legend.labels.color = chartText;
                 academicChart.update();
             }
         }
@@ -1002,15 +1013,15 @@ require_once __DIR__ . '/Navbar.php';
                 type: 'bar',
                 data: {
                     labels: <?= json_encode($adminActivityLabels); ?>,
-                    datasets: [{ label: 'Pengguna baru', data: <?= json_encode($adminActivityValues); ?>, borderRadius: 5, backgroundColor: '#16c7e7', hoverBackgroundColor: '#67e8f9', maxBarThickness: 34 }]
+                    datasets: [{ label: 'Pengguna baru', data: <?= json_encode($adminActivityValues); ?>, borderRadius: 5, backgroundColor: academicColor('--academic-secondary', '#12b9e8'), hoverBackgroundColor: academicColor('--academic-button', '#08bceb'), maxBarThickness: 34 }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: { legend: { display: false }, tooltip: { displayColors: false } },
                     scales: {
-                        x: { ticks: { color: '#9fc4d1', font: { size: 10 } }, grid: { color: 'rgba(148,163,184,.08)' } },
-                        y: { beginAtZero: true, ticks: { color: '#9fc4d1', precision: 0 }, grid: { color: 'rgba(148,163,184,.14)' } }
+                        x: { ticks: { color: academicColor('--academic-muted', '#afc7e5'), font: { size: 10 } }, grid: { color: 'rgba(175,199,229,.12)' } },
+                        y: { beginAtZero: true, ticks: { color: academicColor('--academic-muted', '#afc7e5'), precision: 0 }, grid: { color: 'rgba(175,199,229,.16)' } }
                     }
                 }
             });
@@ -1022,8 +1033,8 @@ require_once __DIR__ . '/Navbar.php';
                 labels: ['User', 'Siswa', 'Guru', 'Mata Pelajaran', 'Data Mengajar'],
                 datasets: [{
                     data: <?= json_encode(array_values($adminAcademicCounts)); ?>,
-                    backgroundColor: ['#3b82f6', '#22d3ee', '#8b5cf6', '#14b8a6', '#f59e0b'],
-                    borderColor: '#0d2233',
+                    backgroundColor: academicChartPalette(),
+                    borderColor: academicColor('--academic-surface', '#ffffff'),
                     borderWidth: 3,
                     hoverOffset: 8
                 }]
@@ -1057,13 +1068,16 @@ require_once __DIR__ . '/Navbar.php';
         var root = document.documentElement;
         var gradeChart = new Chart(canvas, {
             type: 'line',
-            data: { labels: <?= json_encode($siswaChartLabels, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT); ?>, datasets: [{ label: 'Nilai rata-rata', data: <?= json_encode($siswaChartValues); ?>, borderColor: '#22D3EE', backgroundColor: 'rgba(34,211,238,.16)', pointBackgroundColor: '#3B82F6', pointBorderColor: '#a5f3fc', pointRadius: 4, pointHoverRadius: 6, borderWidth: 2, fill: true, tension: .35 }] },
+            data: { labels: <?= json_encode($siswaChartLabels, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT); ?>, datasets: [{ label: 'Nilai rata-rata', data: <?= json_encode($siswaChartValues); ?>, borderColor: getComputedStyle(root).getPropertyValue('--academic-secondary').trim() || '#12b9e8', backgroundColor: 'rgba(18,185,232,.16)', pointBackgroundColor: getComputedStyle(root).getPropertyValue('--academic-primary').trim() || '#087eba', pointBorderColor: getComputedStyle(root).getPropertyValue('--academic-surface').trim() || '#ffffff', pointRadius: 4, pointHoverRadius: 6, borderWidth: 2, fill: true, tension: .35 }] },
             options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { displayColors: false, callbacks: { label: function (context) { return ' Nilai: ' + context.parsed.y; } } } }, scales: { x: { ticks: { color: '#94A3B8', maxRotation: 35, minRotation: 0 }, grid: { color: 'rgba(148,163,184,.1)' } }, y: { min: 0, max: 100, ticks: { color: '#94A3B8' }, grid: { color: 'rgba(148,163,184,.1)' } } } }
         });
         function updateGradeChartTheme() {
             var lightTheme = root.getAttribute('data-theme') === 'light';
-            var textColor = lightTheme ? '#66809a' : '#94A3B8';
-            var gridColor = lightTheme ? 'rgba(49,85,119,.12)' : 'rgba(148,163,184,.1)';
+            var textColor = getComputedStyle(root).getPropertyValue('--academic-muted').trim() || (lightTheme ? '#58728d' : '#afc7e5');
+            var gridColor = lightTheme ? 'rgba(8,126,186,.12)' : 'rgba(175,199,229,.12)';
+            gradeChart.data.datasets[0].borderColor = getComputedStyle(root).getPropertyValue('--academic-secondary').trim() || '#12b9e8';
+            gradeChart.data.datasets[0].pointBackgroundColor = getComputedStyle(root).getPropertyValue('--academic-primary').trim() || '#087eba';
+            gradeChart.data.datasets[0].pointBorderColor = getComputedStyle(root).getPropertyValue('--academic-surface').trim() || '#ffffff';
             gradeChart.options.scales.x.ticks.color = textColor;
             gradeChart.options.scales.x.grid.color = gridColor;
             gradeChart.options.scales.y.ticks.color = textColor;
