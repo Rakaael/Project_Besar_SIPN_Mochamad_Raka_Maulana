@@ -234,7 +234,7 @@ function kepala($judul, $sub = false, $datatables = false)
         }());
     </script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="<?= h(APP_URL); ?>/assets/css/navbar.css?v=13" rel="stylesheet">
+    <link href="<?= h(APP_URL); ?>/assets/css/navbar.css?v=15" rel="stylesheet">
     <?php if ($datatables) { ?><link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css"><?php } ?>
     <style>
         body { background: radial-gradient(ellipse at 92% 2%, rgba(28,157,119,0.12), transparent 27rem), linear-gradient(180deg, #eaf6ef 0, #f4f8f4 260px, #f8faf7 100%); color: #173f35; min-height: 100vh; font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif; -webkit-font-smoothing: antialiased; }

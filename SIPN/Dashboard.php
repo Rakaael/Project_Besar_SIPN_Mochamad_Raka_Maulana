@@ -368,7 +368,6 @@ require_once __DIR__ . '/Navbar.php';
     .admin-view-all:hover { color: #fff; }
     .admin-academic-chart { min-height: 245px; }
     .admin-empty { padding: 1rem 0; color: #8eafbd; font-size: .8rem; text-align: center; }
-    html[data-theme="light"] body:has(.admin-dashboard) { background: linear-gradient(145deg, #071522 0%, #0b2740 58%, #073b66 100%) !important; color: #dceff5 !important; }
     @media (max-width: 1100px) { .admin-stat-row { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
     @media (max-width: 900px) { .admin-dashboard-grid, .admin-dashboard-lower { grid-template-columns: 1fr; } }
     @media (max-width: 575.98px) { .admin-stat-row { grid-template-columns: 1fr; } .admin-quick-actions { grid-template-columns: 1fr; } .admin-panel { padding: 1rem; } .admin-welcome-art { display: none; } }
@@ -433,6 +432,414 @@ require_once __DIR__ . '/Navbar.php';
     html[data-theme="light"] .teacher-summary-item { border-bottom-color: #d9eaf1; }
     html[data-theme="light"] .teacher-summary-item strong { color: #153b56; }
     html[data-theme="light"] .teacher-progress { background: #d9eaf1; }
+
+    html[data-theme="light"] body:has(.admin-dashboard) {
+        background: linear-gradient(135deg, #eef7fb 0%, #f8fbfd 52%, #e8f3f8 100%) !important;
+        color: #173b55 !important;
+    }
+    html[data-theme="light"] .admin-welcome {
+        border-color: #b9dce8;
+        background: linear-gradient(118deg, #e8f8fb, #d8f0f6 60%, #c8e9ef);
+        box-shadow: 0 16px 34px rgba(8,91,132,.12);
+    }
+    html[data-theme="light"] .admin-welcome small,
+    html[data-theme="light"] .admin-welcome-date { color: #087ea4; }
+    html[data-theme="light"] .admin-welcome h2 { color: #153b56; }
+    html[data-theme="light"] .admin-welcome p { color: #31556c; }
+    html[data-theme="light"] .admin-welcome-art span {
+        border-color: #9bcfdd;
+        background: rgba(255,255,255,.5);
+        color: #087ea4;
+    }
+    html[data-theme="light"] .admin-panel {
+        border-color: #cfe4ed;
+        background: linear-gradient(145deg, #fff, #f0f8fb);
+        box-shadow: 0 14px 30px rgba(8,91,132,.09);
+        color: #31556c;
+    }
+    html[data-theme="light"] .admin-panel h2 { color: #153b56; }
+    html[data-theme="light"] .admin-panel-subtitle,
+    html[data-theme="light"] .admin-chart-empty,
+    html[data-theme="light"] .admin-empty { color: #64798a; }
+    html[data-theme="light"] .admin-chart-empty { border-color: #cfe4ed; }
+    html[data-theme="light"] .admin-quick-action {
+        border-color: #cfe4ed;
+        color: #153b56;
+        background: #f5fbfd;
+    }
+    html[data-theme="light"] .admin-quick-action:hover {
+        border-color: #9bcfdd;
+        color: #064c75;
+        background: #e7f8fb;
+    }
+    html[data-theme="light"] .admin-quick-action .sipn-icon { color: #087ea4; }
+    html[data-theme="light"] .admin-users-table { color: #31556c; }
+    html[data-theme="light"] .admin-users-table th {
+        color: #087ea4;
+        border-bottom-color: #cfe4ed;
+    }
+    html[data-theme="light"] .admin-users-table td { border-bottom-color: #d9eaf1; }
+    html[data-theme="light"] .admin-role-badge.admin { color: #6546a5; background: #f0eafe; }
+    html[data-theme="light"] .admin-role-badge.guru { color: #087ea4; background: #e2f6fb; }
+    html[data-theme="light"] .admin-role-badge.siswa { color: #187347; background: #e5f6ec; }
+    html[data-theme="light"] .admin-view-all { color: #087ea4; }
+    html[data-theme="light"] .admin-view-all:hover { color: #064c75; }
+
+    html[data-theme="dark"] body:has(.dashboard-page) {
+        background:
+            radial-gradient(circle at 85% 0%, rgba(0,191,255,.1), transparent 30rem),
+            linear-gradient(145deg, #04152d 0%, #061b38 52%, #031329 100%) !important;
+        color: #e5f3ff !important;
+    }
+    html[data-theme="dark"] body:has(.dashboard-page)::before {
+        opacity: .35;
+        background-image: linear-gradient(rgba(0,183,255,.08) 1px, transparent 1px),
+                          linear-gradient(90deg, rgba(0,183,255,.08) 1px, transparent 1px);
+    }
+    html[data-theme="dark"] body:has(.dashboard-page) .portal-sidebar {
+        background: linear-gradient(180deg, #03152d, #041a35) !important;
+        box-shadow: 8px 0 26px rgba(0,0,0,.28);
+    }
+    html[data-theme="dark"] body:has(.dashboard-page) .portal-topbar {
+        background: linear-gradient(100deg, #03152d, #06264a) !important;
+        border-bottom-color: rgba(0,205,255,.28);
+        box-shadow: 0 8px 24px rgba(0,0,0,.2);
+    }
+    html[data-theme="dark"] body:has(.dashboard-page) .portal-brand,
+    html[data-theme="dark"] body:has(.dashboard-page) .portal-section-label {
+        border-color: rgba(0,205,255,.18);
+    }
+    html[data-theme="dark"] body:has(.dashboard-page) .portal-nav-link.is-active,
+    html[data-theme="dark"] body:has(.dashboard-page) .portal-nav-link:hover {
+        background: linear-gradient(100deg, #0879d1, #05b9e8) !important;
+    }
+    html[data-theme="dark"] .dashboard-page > .judul { color: #e5f3ff !important; }
+    html[data-theme="dark"] .dashboard-page > .judul::after {
+        background: linear-gradient(90deg, #00c8f5, #0589ff) !important;
+        box-shadow: 0 0 14px rgba(0,200,245,.45) !important;
+    }
+    html[data-theme="dark"] .admin-welcome,
+    html[data-theme="dark"] .teacher-welcome {
+        border-color: #078ec2;
+        background: linear-gradient(105deg, #064579 0%, #056bb0 58%, #00a9c8 115%);
+        box-shadow: 0 15px 32px rgba(0,0,0,.28);
+    }
+    html[data-theme="dark"] .admin-welcome small,
+    html[data-theme="dark"] .admin-welcome-date,
+    html[data-theme="dark"] .teacher-welcome small,
+    html[data-theme="dark"] .teacher-welcome-date { color: #67eaff; }
+    html[data-theme="dark"] .admin-welcome h2,
+    html[data-theme="dark"] .teacher-welcome h2 { color: #f0f8ff; }
+    html[data-theme="dark"] .admin-welcome p,
+    html[data-theme="dark"] .teacher-welcome p { color: #d3efff; }
+    html[data-theme="dark"] .admin-stat-row .stat,
+    html[data-theme="dark"] .teacher-stat-row .stat {
+        border-color: rgba(0,210,255,.6);
+        background: linear-gradient(115deg, #087eb9, #06498f 78%) !important;
+        box-shadow: 0 10px 24px rgba(0,0,0,.25);
+    }
+    html[data-theme="dark"] .admin-stat-row .stat small,
+    html[data-theme="dark"] .teacher-stat-row .stat small { color: #e3f6ff !important; }
+    html[data-theme="dark"] .admin-stat-row .stat h2,
+    html[data-theme="dark"] .teacher-stat-row .stat h2 { color: #fff !important; }
+    html[data-theme="dark"] .admin-stat-icon,
+    html[data-theme="dark"] .teacher-stat-icon {
+        border-color: rgba(130,238,255,.7);
+        background: linear-gradient(145deg, #00c8ed, #087be0);
+        color: #fff;
+    }
+    html[data-theme="dark"] .admin-stat-arrow,
+    html[data-theme="dark"] .teacher-stat-arrow { color: #76eaff; }
+    html[data-theme="dark"] .admin-stat-subtitle,
+    html[data-theme="dark"] .teacher-stat-subtitle { color: #c4eaff; }
+    html[data-theme="dark"] .admin-panel,
+    html[data-theme="dark"] .teacher-panel,
+    html[data-theme="dark"] .student-panel,
+    html[data-theme="dark"] .student-tip,
+    html[data-theme="dark"] .student-subject-card {
+        border-color: #0a4b70;
+        background: linear-gradient(145deg, #062344, #041a35);
+        box-shadow: 0 14px 30px rgba(0,0,0,.28);
+        color: #dceeff;
+    }
+    html[data-theme="dark"] .admin-panel h2,
+    html[data-theme="dark"] .teacher-panel h3,
+    html[data-theme="dark"] .student-panel-heading h3,
+    html[data-theme="dark"] .student-subject-card h3 { color: #e8f5ff; }
+    html[data-theme="dark"] .admin-panel-subtitle,
+    html[data-theme="dark"] .admin-chart-empty,
+    html[data-theme="dark"] .admin-empty,
+    html[data-theme="dark"] .teacher-panel-subtitle,
+    html[data-theme="dark"] .teacher-chart-empty,
+    html[data-theme="dark"] .student-panel-heading span { color: #9dbbd3; }
+    html[data-theme="dark"] .admin-chart-empty { border-color: rgba(0,200,245,.3); }
+    html[data-theme="dark"] .admin-quick-action,
+    html[data-theme="dark"] .teacher-action {
+        border-color: rgba(0,194,242,.38);
+        color: #e5f5ff;
+        background: linear-gradient(110deg, #07558f, #06366e);
+    }
+    html[data-theme="dark"] .admin-quick-action:hover,
+    html[data-theme="dark"] .teacher-action:hover {
+        border-color: #18d8fa;
+        color: #fff;
+        background: linear-gradient(110deg, #06a9d2, #0878d4);
+    }
+    html[data-theme="dark"] .admin-quick-action .sipn-icon,
+    html[data-theme="dark"] .teacher-action-icon { color: #6deaff; }
+    html[data-theme="dark"] .teacher-action small { color: #a9c5dc; }
+    html[data-theme="dark"] .admin-users-table,
+    html[data-theme="dark"] .teacher-table { color: #d8eaff; }
+    html[data-theme="dark"] .admin-users-table th,
+    html[data-theme="dark"] .teacher-table th {
+        color: #51dfff;
+        border-bottom-color: rgba(104,185,223,.3);
+    }
+    html[data-theme="dark"] .admin-users-table td,
+    html[data-theme="dark"] .teacher-table td { border-bottom-color: rgba(104,185,223,.17); }
+    html[data-theme="dark"] .admin-view-all,
+    html[data-theme="dark"] .student-detail-link { color: #31d9f6; }
+    html[data-theme="dark"] .admin-view-all:hover,
+    html[data-theme="dark"] .student-detail-link:hover { color: #fff; }
+    html[data-theme="dark"] .teacher-summary-item,
+    html[data-theme="dark"] .student-section-title span,
+    html[data-theme="dark"] .student-subject-card .student-teacher,
+    html[data-theme="dark"] .student-grade small { color: #9dbbd3; }
+    html[data-theme="dark"] .teacher-summary-item { border-bottom-color: rgba(104,185,223,.17); }
+    html[data-theme="dark"] .teacher-summary-item strong,
+    html[data-theme="dark"] .student-achievement strong { color: #eaf6ff; }
+    html[data-theme="dark"] .teacher-progress { background: #102f52; }
+    html[data-theme="dark"] .student-welcome {
+        border-color: #078ec2;
+        background: linear-gradient(105deg, #064579 0%, #056bb0 58%, #00a9c8 115%);
+        box-shadow: 0 16px 34px rgba(0,0,0,.28);
+    }
+    html[data-theme="dark"] .student-eyebrow,
+    html[data-theme="dark"] .student-date,
+    html[data-theme="dark"] .student-grade strong { color: #67eaff; }
+    html[data-theme="dark"] .student-welcome h2 { color: #f0f8ff; }
+    html[data-theme="dark"] .student-welcome p,
+    html[data-theme="dark"] .student-tip p { color: #d3efff; }
+    html[data-theme="dark"] .student-section-title h2 { color: #e8f5ff; }
+    html[data-theme="dark"] .student-dashboard .stat {
+        border-color: rgba(0,210,255,.48);
+        background: linear-gradient(115deg, #087eb9, #06498f 78%) !important;
+        box-shadow: 0 10px 24px rgba(0,0,0,.25);
+    }
+    html[data-theme="dark"] .student-dashboard .stat small { color: #c5dced !important; }
+    html[data-theme="dark"] .student-dashboard .stat h2 { color: #fff !important; }
+    html[data-theme="dark"] .student-achievement {
+        border-color: rgba(0,194,242,.25);
+        background: rgba(3,22,45,.58);
+    }
+
+    html[data-theme="light"] body:has(.dashboard-page) {
+        background:
+            radial-gradient(circle at 90% 0%, rgba(15,181,232,.1), transparent 28rem),
+            linear-gradient(145deg, #f2f9ff 0%, #fbfdff 52%, #edf7ff 100%) !important;
+        color: #17365f !important;
+    }
+    html[data-theme="light"] body:has(.dashboard-page)::before {
+        opacity: .25;
+        background-image: linear-gradient(rgba(18,119,204,.07) 1px, transparent 1px),
+                          linear-gradient(90deg, rgba(18,119,204,.07) 1px, transparent 1px);
+    }
+    html[data-theme="light"] body:has(.dashboard-page) .portal-sidebar {
+        background: linear-gradient(180deg, #fff 0%, #f5fbff 100%) !important;
+        border-right: 1px solid #dceaf6;
+        box-shadow: 8px 0 26px rgba(27,83,133,.08);
+        color: #17365f;
+    }
+    html[data-theme="light"] body:has(.dashboard-page) .portal-brand {
+        border-bottom-color: #dceaf6;
+        color: #0876c9;
+    }
+    html[data-theme="light"] body:has(.dashboard-page) .portal-brand small,
+    html[data-theme="light"] body:has(.dashboard-page) .portal-profile small { color: #647d9a; }
+    html[data-theme="light"] body:has(.dashboard-page) .portal-brand-mark {
+        border-color: #c5e7f6;
+        background: linear-gradient(145deg, #e4f8ff, #d8efff);
+        color: #087acb;
+    }
+    html[data-theme="light"] body:has(.dashboard-page) .portal-profile {
+        border-color: #d7e9f6;
+        background: linear-gradient(110deg, #f0f9ff, #e5f5ff);
+    }
+    html[data-theme="light"] body:has(.dashboard-page) .portal-profile strong { color: #17365f; }
+    html[data-theme="light"] body:has(.dashboard-page) .portal-section-label {
+        border-bottom-color: #dceaf6;
+        color: #738aa4;
+    }
+    html[data-theme="light"] body:has(.dashboard-page) .portal-nav-link,
+    html[data-theme="light"] body:has(.dashboard-page) .portal-side-dropdown-toggle {
+        color: #526b87;
+    }
+    html[data-theme="light"] body:has(.dashboard-page) .portal-nav-link.is-active,
+    html[data-theme="light"] body:has(.dashboard-page) .portal-nav-link:hover,
+    html[data-theme="light"] body:has(.dashboard-page) .portal-side-dropdown-toggle:hover,
+    html[data-theme="light"] body:has(.dashboard-page) .portal-side-dropdown-toggle.is-active {
+        background: linear-gradient(100deg, #16bfe8, #1387e5) !important;
+        color: #fff;
+    }
+    html[data-theme="light"] body:has(.dashboard-page) .portal-side-dropdown .dropdown-menu {
+        border-color: #d8eaf6;
+        background: #f5fbff;
+        box-shadow: 0 8px 18px rgba(25,87,137,.08);
+    }
+    html[data-theme="light"] body:has(.dashboard-page) .portal-side-dropdown .portal-nav-link { color: #526b87; }
+    html[data-theme="light"] body:has(.dashboard-page) .portal-side-dropdown .portal-nav-link.is-active,
+    html[data-theme="light"] body:has(.dashboard-page) .portal-side-dropdown .portal-nav-link:hover {
+        background: #dff4ff !important;
+        color: #0876c9;
+    }
+    html[data-theme="light"] body:has(.dashboard-page) .portal-side-dropdown .dropdown-divider { border-color: #d8eaf6; }
+    html[data-theme="light"] body:has(.dashboard-page) .sidebar-education-quote {
+        border-color: #cceaf8;
+        background: linear-gradient(135deg, #eaf9ff, #d5f1ff);
+        box-shadow: 0 10px 24px rgba(24,123,181,.1);
+    }
+    html[data-theme="light"] body:has(.dashboard-page) .sidebar-education-quote p { color: #315777; }
+    html[data-theme="light"] body:has(.dashboard-page) .sidebar-education-quote-icon {
+        background: #d3f3ff;
+        color: #0a9bd1;
+    }
+    html[data-theme="light"] body:has(.dashboard-page) .portal-topbar {
+        background: rgba(255,255,255,.94) !important;
+        border-bottom-color: #dceaf6;
+        box-shadow: 0 6px 20px rgba(27,83,133,.07);
+        color: #17365f;
+    }
+    html[data-theme="light"] body:has(.dashboard-page) .portal-topbar small { color: #7188a2; }
+    html[data-theme="light"] body:has(.dashboard-page) .portal-topbar-user { color: #294d76; }
+    html[data-theme="light"] body:has(.dashboard-page) .portal-theme-toggle {
+        border-color: #c8e4f3;
+        background: #eef9ff;
+        color: #0876c9;
+    }
+    html[data-theme="light"] body:has(.dashboard-page) .portal-theme-toggle:hover { background: #dff4ff; }
+    html[data-theme="light"] body:has(.dashboard-page) .portal-user-menu .dropdown-menu {
+        border-color: #d7e9f5;
+        background: #fff;
+    }
+    html[data-theme="light"] body:has(.dashboard-page) .portal-user-menu .dropdown-item { color: #294d76; }
+
+    html[data-theme="light"] .dashboard-page > .judul { color: #17365f !important; }
+    html[data-theme="light"] .dashboard-page > .judul::after {
+        background: linear-gradient(90deg, #12bce8, #1689e5) !important;
+        box-shadow: 0 0 12px rgba(18,188,232,.28) !important;
+    }
+    html[data-theme="light"] .admin-welcome,
+    html[data-theme="light"] .teacher-welcome,
+    html[data-theme="light"] .student-welcome {
+        border-color: #b9e2f5;
+        background: linear-gradient(110deg, #dff5ff 0%, #c8edff 58%, #e2f8ff 100%);
+        box-shadow: 0 12px 28px rgba(31,119,179,.11), inset 0 1px rgba(255,255,255,.8);
+    }
+    html[data-theme="light"] .admin-welcome small,
+    html[data-theme="light"] .admin-welcome-date,
+    html[data-theme="light"] .teacher-welcome small,
+    html[data-theme="light"] .teacher-welcome-date,
+    html[data-theme="light"] .student-eyebrow,
+    html[data-theme="light"] .student-date { color: #087ebd; }
+    html[data-theme="light"] .admin-welcome h2,
+    html[data-theme="light"] .teacher-welcome h2,
+    html[data-theme="light"] .student-welcome h2 { color: #17365f; }
+    html[data-theme="light"] .admin-welcome p,
+    html[data-theme="light"] .teacher-welcome p,
+    html[data-theme="light"] .student-welcome p { color: #385b7e; }
+    html[data-theme="light"] .admin-welcome-art span,
+    html[data-theme="light"] .teacher-welcome-art span,
+    html[data-theme="light"] .student-welcome-art {
+        border-color: #9bd5ed;
+        background: rgba(255,255,255,.58);
+        color: #087ebd;
+    }
+    html[data-theme="light"] .admin-stat-row .stat,
+    html[data-theme="light"] .teacher-stat-row .stat,
+    html[data-theme="light"] .student-dashboard .stat {
+        border-color: #d4e8f6;
+        background: linear-gradient(145deg, #fff, #f2f9ff) !important;
+        box-shadow: 0 10px 24px rgba(30,93,145,.09);
+    }
+    html[data-theme="light"] .admin-stat-row .stat small,
+    html[data-theme="light"] .teacher-stat-row .stat small,
+    html[data-theme="light"] .student-dashboard .stat small { color: #59728e !important; }
+    html[data-theme="light"] .admin-stat-row .stat h2,
+    html[data-theme="light"] .teacher-stat-row .stat h2,
+    html[data-theme="light"] .student-dashboard .stat h2 { color: #17365f !important; }
+    html[data-theme="light"] .admin-stat-subtitle,
+    html[data-theme="light"] .teacher-stat-subtitle { color: #66809a; }
+    html[data-theme="light"] .admin-stat-icon,
+    html[data-theme="light"] .teacher-stat-icon,
+    html[data-theme="light"] .student-achievement-icon {
+        border-color: #b6e7f7;
+        background: linear-gradient(145deg, #e1f8ff, #c9efff);
+        color: #078acb;
+    }
+    html[data-theme="light"] .admin-stat-arrow,
+    html[data-theme="light"] .teacher-stat-arrow { color: #1689d5; }
+    html[data-theme="light"] .admin-panel,
+    html[data-theme="light"] .teacher-panel,
+    html[data-theme="light"] .student-panel,
+    html[data-theme="light"] .student-tip,
+    html[data-theme="light"] .student-subject-card {
+        border-color: #d7e9f5;
+        background: linear-gradient(145deg, #fff, #f7fbff);
+        box-shadow: 0 10px 26px rgba(30,93,145,.07);
+        color: #315777;
+    }
+    html[data-theme="light"] .admin-panel h2,
+    html[data-theme="light"] .teacher-panel h3,
+    html[data-theme="light"] .student-panel-heading h3,
+    html[data-theme="light"] .student-subject-card h3 { color: #17365f; }
+    html[data-theme="light"] .admin-panel-subtitle,
+    html[data-theme="light"] .admin-chart-empty,
+    html[data-theme="light"] .admin-empty,
+    html[data-theme="light"] .teacher-panel-subtitle,
+    html[data-theme="light"] .teacher-chart-empty,
+    html[data-theme="light"] .teacher-empty,
+    html[data-theme="light"] .teacher-summary-item,
+    html[data-theme="light"] .student-panel-heading span,
+    html[data-theme="light"] .student-subject-card .student-teacher,
+    html[data-theme="light"] .student-grade small { color: #66809a; }
+    html[data-theme="light"] .admin-chart-empty { border-color: #cfe4f2; }
+    html[data-theme="light"] .admin-quick-action,
+    html[data-theme="light"] .teacher-action {
+        border-color: #cde7f5;
+        background: linear-gradient(110deg, #e7f7ff, #d9f1ff);
+        color: #173e68;
+    }
+    html[data-theme="light"] .admin-quick-action:hover,
+    html[data-theme="light"] .teacher-action:hover {
+        border-color: #9dd9f2;
+        background: linear-gradient(110deg, #d3f1ff, #bde8ff);
+        color: #075d9d;
+    }
+    html[data-theme="light"] .admin-quick-action .sipn-icon,
+    html[data-theme="light"] .teacher-action-icon { color: #078acb; }
+    html[data-theme="light"] .teacher-action-icon { background: #d6f3ff; }
+    html[data-theme="light"] .admin-users-table,
+    html[data-theme="light"] .teacher-table { color: #315777; }
+    html[data-theme="light"] .admin-users-table th,
+    html[data-theme="light"] .teacher-table th {
+        color: #087ebd;
+        border-bottom-color: #d4e8f5;
+    }
+    html[data-theme="light"] .admin-users-table td,
+    html[data-theme="light"] .teacher-table td { border-bottom-color: #e2eef7; }
+    html[data-theme="light"] .admin-view-all,
+    html[data-theme="light"] .student-detail-link { color: #087ebd; }
+    html[data-theme="light"] .admin-view-all:hover,
+    html[data-theme="light"] .student-detail-link:hover { color: #075d9d; }
+    html[data-theme="light"] .teacher-summary-item { border-bottom-color: #e2eef7; }
+    html[data-theme="light"] .teacher-summary-item strong,
+    html[data-theme="light"] .student-achievement strong { color: #17365f; }
+    html[data-theme="light"] .teacher-progress { background: #dcecf7; }
+    html[data-theme="light"] .student-section-title h2 { color: #17365f; }
+    html[data-theme="light"] .student-achievement { border-color: #d9eaf5; background: #f5fbff; }
+    html[data-theme="light"] .student-tip { background: linear-gradient(120deg, #e7f7ff, #f7fbff); }
+    html[data-theme="light"] .student-tip p { color: #385b7e; }
+    html[data-theme="light"] .student-grade strong { color: #078acb; }
 </style>
 <main class="container py-5 dashboard-page">
     <h1 class="judul">Dashboard <?= h(ucfirst($role)); ?></h1>
@@ -569,9 +976,29 @@ require_once __DIR__ . '/Navbar.php';
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
 <script>
     (function () {
+        var root = document.documentElement;
+        var activityChart = null;
+        var academicChart = null;
+        function updateChartTheme() {
+            var lightTheme = root.getAttribute('data-theme') === 'light';
+            var chartText = lightTheme ? '#66809a' : '#9fc4d1';
+            var chartGrid = lightTheme ? 'rgba(49,85,119,.12)' : 'rgba(148,163,184,.08)';
+            if (activityChart) {
+                activityChart.options.scales.x.ticks.color = chartText;
+                activityChart.options.scales.x.grid.color = chartGrid;
+                activityChart.options.scales.y.ticks.color = chartText;
+                activityChart.options.scales.y.grid.color = lightTheme ? 'rgba(49,85,119,.16)' : 'rgba(148,163,184,.14)';
+                activityChart.update();
+            }
+            if (academicChart) {
+                academicChart.data.datasets[0].borderColor = lightTheme ? '#f7fbff' : '#0d2233';
+                academicChart.options.plugins.legend.labels.color = lightTheme ? '#526b80' : '#cfe8f0';
+                academicChart.update();
+            }
+        }
         var activityCanvas = document.getElementById('adminActivityChart');
         if (activityCanvas && typeof Chart !== 'undefined') {
-            new Chart(activityCanvas, {
+            activityChart = new Chart(activityCanvas, {
                 type: 'bar',
                 data: {
                     labels: <?= json_encode($adminActivityLabels); ?>,
@@ -589,8 +1016,7 @@ require_once __DIR__ . '/Navbar.php';
             });
         }
         var canvas = document.getElementById('adminAcademicChart');
-        if (!canvas || typeof Chart === 'undefined') return;
-        new Chart(canvas, {
+        if (canvas && typeof Chart !== 'undefined') academicChart = new Chart(canvas, {
             type: 'doughnut',
             data: {
                 labels: ['User', 'Siswa', 'Guru', 'Mata Pelajaran', 'Data Mengajar'],
@@ -612,6 +1038,8 @@ require_once __DIR__ . '/Navbar.php';
                 }
             }
         });
+        updateChartTheme();
+        new MutationObserver(updateChartTheme).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
     }());
 </script>
 <?php } ?>
@@ -626,11 +1054,24 @@ require_once __DIR__ . '/Navbar.php';
         if (tipTarget) tipTarget.textContent = tips[Math.floor(Math.random() * tips.length)];
         var canvas = document.getElementById('studentGradeChart');
         if (!canvas || typeof Chart === 'undefined') return;
-        new Chart(canvas, {
+        var root = document.documentElement;
+        var gradeChart = new Chart(canvas, {
             type: 'line',
             data: { labels: <?= json_encode($siswaChartLabels, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT); ?>, datasets: [{ label: 'Nilai rata-rata', data: <?= json_encode($siswaChartValues); ?>, borderColor: '#22D3EE', backgroundColor: 'rgba(34,211,238,.16)', pointBackgroundColor: '#3B82F6', pointBorderColor: '#a5f3fc', pointRadius: 4, pointHoverRadius: 6, borderWidth: 2, fill: true, tension: .35 }] },
             options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { displayColors: false, callbacks: { label: function (context) { return ' Nilai: ' + context.parsed.y; } } } }, scales: { x: { ticks: { color: '#94A3B8', maxRotation: 35, minRotation: 0 }, grid: { color: 'rgba(148,163,184,.1)' } }, y: { min: 0, max: 100, ticks: { color: '#94A3B8' }, grid: { color: 'rgba(148,163,184,.1)' } } } }
         });
+        function updateGradeChartTheme() {
+            var lightTheme = root.getAttribute('data-theme') === 'light';
+            var textColor = lightTheme ? '#66809a' : '#94A3B8';
+            var gridColor = lightTheme ? 'rgba(49,85,119,.12)' : 'rgba(148,163,184,.1)';
+            gradeChart.options.scales.x.ticks.color = textColor;
+            gradeChart.options.scales.x.grid.color = gridColor;
+            gradeChart.options.scales.y.ticks.color = textColor;
+            gradeChart.options.scales.y.grid.color = gridColor;
+            gradeChart.update();
+        }
+        updateGradeChartTheme();
+        new MutationObserver(updateGradeChartTheme).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
     }());
 </script>
 <?php } ?>

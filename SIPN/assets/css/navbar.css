@@ -1370,3 +1370,46 @@ body:has(.portal-layout) { padding-top: 0 !important; overflow-x: hidden; }
 .portal-profile { background: linear-gradient(120deg, rgba(255,255,255,.13), rgba(34,184,199,.1)); }
 .portal-nav-link.is-active { background: linear-gradient(105deg, #087ea4, #22b8c7) !important; }
 .portal-nav-link:hover { background: linear-gradient(105deg, rgba(8,126,164,.9), rgba(34,184,199,.8)) !important; }
+
+/* Tema terang portal: jaga kontras komponen utama saat tema dipilih secara eksplisit. */
+html[data-theme="light"] body:has(.portal-layout) {
+    background:
+        radial-gradient(circle at 8% 0%, rgba(34,184,199,.16), transparent 28rem),
+        radial-gradient(circle at 92% 12%, rgba(8,126,164,.1), transparent 32rem),
+        linear-gradient(145deg, #eef8fc 0%, #fbfdff 48%, #edf6fa 100%) !important;
+    color: #153b56 !important;
+}
+html[data-theme="light"] .portal-main { color: #153b56; }
+html[data-theme="light"] .portal-main .card,
+html[data-theme="light"] .portal-main .wrapper,
+html[data-theme="light"] .portal-main .kartu {
+    background: #fff !important;
+    border-color: #cfe4ed !important;
+    color: #153b56 !important;
+    box-shadow: 0 12px 30px rgba(8,91,132,.1) !important;
+}
+html[data-theme="light"] .portal-main .form-label { color: #245676 !important; }
+html[data-theme="light"] .portal-main .form-control,
+html[data-theme="light"] .portal-main .form-select,
+html[data-theme="light"] .portal-main .dataTables_filter input,
+html[data-theme="light"] .portal-main .dataTables_length select {
+    background: #fff !important;
+    border-color: #bddbe7 !important;
+    color: #153b56 !important;
+}
+html[data-theme="light"] .portal-main .table {
+    --bs-table-bg: #fff;
+    --bs-table-color: #245676;
+    --bs-table-striped-bg: #edf8fb;
+    --bs-table-striped-color: #245676;
+    --bs-table-hover-bg: #dff4f8;
+    --bs-table-hover-color: #153b56;
+    background: #fff !important;
+    border-color: #cfe4ed !important;
+}
+html[data-theme="light"] .portal-main .table > :not(caption) > * > * {
+    color: #245676 !important;
+    border-color: #d7eaf0;
+}
+html[data-theme="light"] .portal-main .dataTables_wrapper { color: #526b80; }
+html[data-theme="light"] .portal-main .text-secondary { color: #668196 !important; }
