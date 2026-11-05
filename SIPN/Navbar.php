@@ -64,6 +64,41 @@ $navIcon = static function (string $name): string {
             // Tema default tetap digunakan jika localStorage tidak tersedia.
         }
         document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.portal-main table').forEach(function (table) {
+                if (table.closest('.table-responsive')) return;
+                var wrapper = document.createElement('div');
+                wrapper.className = 'table-responsive';
+                wrapper.setAttribute('role', 'region');
+                wrapper.setAttribute('aria-label', 'Tabel data, gulir horizontal untuk melihat semua kolom');
+                table.parentNode.insertBefore(wrapper, table);
+                wrapper.appendChild(table);
+            });
+
+            var menuToggle = document.querySelector('[data-portal-menu-toggle]');
+            var sidebar = document.querySelector('.portal-sidebar');
+            function closePortalMenu() {
+                if (!menuToggle || !sidebar) return;
+                sidebar.classList.remove('is-nav-open');
+                menuToggle.setAttribute('aria-expanded', 'false');
+                menuToggle.setAttribute('aria-label', 'Buka menu navigasi');
+            }
+            if (menuToggle && sidebar) {
+                menuToggle.addEventListener('click', function () {
+                    var isOpen = sidebar.classList.toggle('is-nav-open');
+                    menuToggle.setAttribute('aria-expanded', String(isOpen));
+                    menuToggle.setAttribute('aria-label', isOpen ? 'Tutup menu navigasi' : 'Buka menu navigasi');
+                });
+                sidebar.querySelectorAll('.portal-nav-link').forEach(function (link) {
+                    link.addEventListener('click', closePortalMenu);
+                });
+                document.addEventListener('keydown', function (event) {
+                    if (event.key === 'Escape') closePortalMenu();
+                });
+                window.addEventListener('resize', function () {
+                    if (window.innerWidth > 767.98) closePortalMenu();
+                });
+            }
+
             var studyTip = document.querySelector('[data-sidebar-study-tip]');
             if (studyTip) {
                 var tips = [
@@ -100,6 +135,7 @@ $navIcon = static function (string $name): string {
 <?php if ($navCurrentPage !== 'Dashboard.php') { ?>
 <link rel="stylesheet" href="<?= h($navHref('assets/css/academic-theme.css')); ?>?v=6">
 <?php } ?>
+<link rel="stylesheet" href="<?= h($navHref('assets/css/responsive.css')); ?>?v=1">
 <?php if (false) { ?><nav class="navbar navbar-expand-lg navbar-dark sipn-navbar">
     <div class="container-fluid">
         <a class="navbar-brand" href="Dashboard.php">
@@ -213,6 +249,10 @@ $navIcon = static function (string $name): string {
             <span class="portal-brand-mark" aria-hidden="true"><?= $navIcon('school'); ?></span>
             <span><strong>SIPN</strong><small>Sistem Informasi Pengelolaan Nilai</small></span>
         </a>
+        <button class="portal-menu-toggle" type="button" data-portal-menu-toggle
+            aria-controls="portal-navigation" aria-expanded="false" aria-label="Buka menu navigasi">
+            <span></span><span></span><span></span>
+        </button>
         <?php if ($isLoggedIn) { ?>
         <div class="portal-profile">
             <?php if ($navFotoUrl) { ?><img src="<?= htmlspecialchars($navFotoUrl, ENT_QUOTES, 'UTF-8'); ?>" class="rounded-circle nav-photo" alt="">
@@ -221,7 +261,7 @@ $navIcon = static function (string $name): string {
         </div>
         <?php } ?>
         <div class="portal-section-label">Menu Utama</div>
-        <nav class="portal-nav">
+        <nav class="portal-nav" id="portal-navigation" aria-label="Menu utama">
             <?php $portalLink = static function (string $path, string $label, string $icon, array $pages = []) use ($navHref, $navCurrentPage, $navIcon): void { $active = in_array($navCurrentPage, $pages ?: [basename($path)], true); ?>
                 <a class="portal-nav-link<?= $active ? ' is-active' : ''; ?>" href="<?= h($navHref($path)); ?>"><?= $navIcon($icon); ?><span><?= h($label); ?></span></a>
             <?php }; ?>

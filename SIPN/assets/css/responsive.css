@@ -1,0 +1,511 @@
+html,
+body {
+    max-width: 100%;
+    overflow-x: clip;
+}
+
+img,
+video,
+svg,
+canvas {
+    max-width: 100%;
+}
+
+.portal-layout {
+    display: block;
+}
+
+.portal-sidebar {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    min-height: 0;
+    padding: .8rem .85rem;
+    overflow: visible;
+}
+
+.portal-main {
+    width: 100%;
+    margin-left: 0;
+}
+
+.portal-layout,
+.portal-sidebar,
+.portal-main,
+.portal-main > .container,
+.portal-main > .container-fluid,
+.portal-main > main {
+    min-width: 0;
+}
+
+.portal-main .table-responsive {
+    width: 100%;
+    max-width: 100%;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+}
+
+.portal-main .table-responsive > table {
+    min-width: 620px;
+    margin-bottom: 0;
+}
+
+.portal-main form,
+.portal-main form .row > *,
+.portal-main .card,
+.portal-main .wrapper,
+.portal-main .kartu {
+    min-width: 0;
+    max-width: 100%;
+}
+
+.portal-main form input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]):not([type="reset"]):not([type="hidden"]),
+.portal-main form select,
+.portal-main form textarea {
+    width: 100%;
+    min-width: 0;
+}
+
+.portal-main .form-control,
+.portal-main .form-select,
+.portal-main input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]),
+.portal-main select,
+.portal-main textarea {
+    max-width: 100%;
+}
+
+.portal-main .dataTables_wrapper,
+.portal-main .dataTables_wrapper .row,
+.portal-main .dataTables_wrapper .dataTables_length,
+.portal-main .dataTables_wrapper .dataTables_filter {
+    min-width: 0;
+    max-width: 100%;
+}
+
+.portal-main canvas {
+    display: block;
+    max-width: 100%;
+}
+
+.portal-menu-toggle {
+    position: absolute;
+    top: .85rem;
+    right: .85rem;
+    display: flex;
+    width: 2.75rem;
+    height: 2.75rem;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    border: 1px solid rgba(255,255,255,.4);
+    border-radius: 10px;
+    background: rgba(255,255,255,.12);
+    color: #fff;
+    cursor: pointer;
+}
+
+.portal-brand {
+    min-width: 0;
+    padding-right: 3.5rem;
+}
+
+.portal-brand > span:last-child {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.portal-menu-toggle span {
+    display: block;
+    width: 1.15rem;
+    height: 2px;
+    border-radius: 2px;
+    background: currentColor;
+}
+
+.portal-menu-toggle:focus-visible {
+    outline: 3px solid rgba(255,255,255,.8);
+    outline-offset: 2px;
+}
+
+.portal-section-label,
+.portal-nav {
+    display: none;
+}
+
+.portal-sidebar.is-nav-open .portal-section-label {
+    display: block;
+    margin-top: .9rem;
+}
+
+.portal-sidebar.is-nav-open .portal-nav {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .35rem;
+}
+
+@media (min-width: 768px) {
+    .portal-layout {
+        display: flex;
+    }
+
+    .portal-sidebar {
+        position: fixed;
+        inset: 0 auto 0 0;
+        width: 226px;
+        min-height: 100vh;
+        padding: 1.2rem 1rem;
+        overflow-y: auto;
+    }
+
+    .portal-main {
+        width: calc(100% - 226px);
+        margin-left: 226px;
+    }
+
+    .portal-brand {
+        padding-right: .45rem;
+    }
+
+    .portal-menu-toggle {
+        display: none;
+    }
+
+    .portal-section-label,
+    .portal-nav {
+        display: block;
+    }
+
+    .portal-nav {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: .25rem;
+    }
+}
+
+@media (min-width: 992px) {
+    .portal-sidebar {
+        width: 264px;
+    }
+
+    .portal-main {
+        width: calc(100% - 264px);
+        margin-left: 264px;
+    }
+}
+
+.login-shell,
+.login-layout,
+.login-card {
+    min-width: 0;
+    max-width: 100%;
+}
+
+.login-card .form-control {
+    min-width: 0;
+    max-width: 100%;
+}
+
+@media (max-width: 991.98px) {
+    .login-layout {
+        grid-template-columns: minmax(0, 1fr);
+        gap: .5rem;
+    }
+
+    .login-intro {
+        padding: .5rem 0 1rem;
+    }
+
+    .login-intro::before {
+        top: 0;
+        left: -8rem;
+        transform: none;
+    }
+
+    .login-intro-eyebrow {
+        margin-bottom: .75rem;
+    }
+
+    .login-intro h1 {
+        max-width: 16ch;
+        font-size: clamp(2.1rem, 10vw, 3.2rem);
+    }
+
+    .login-intro-copy {
+        margin-bottom: 1rem;
+        font-size: .96rem;
+    }
+
+    .login-features {
+        display: none;
+    }
+
+    .login-card {
+        justify-self: stretch;
+    }
+}
+
+@media (max-width: 991.98px) {
+    .portal-main .judul,
+    .portal-main > .container > h1:not(.judul),
+    .portal-main > .container-fluid > h1:not(.judul),
+    .portal-main > main > h1:not(.judul) {
+        overflow-wrap: anywhere;
+    }
+
+    .portal-main .dataTables_wrapper .dataTables_filter input {
+        width: min(100%, 16rem);
+        min-width: 0;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .portal-sidebar {
+        position: relative;
+        padding: .8rem .85rem;
+    }
+
+    .portal-brand {
+        min-width: 0;
+        padding-right: 3.5rem;
+    }
+
+    .portal-brand > span:last-child {
+        min-width: 0;
+        overflow-wrap: anywhere;
+    }
+
+    .portal-menu-toggle {
+        position: absolute;
+        top: .85rem;
+        right: .85rem;
+        display: flex;
+        width: 2.75rem;
+        height: 2.75rem;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        border: 1px solid rgba(255,255,255,.4);
+        border-radius: 10px;
+        background: rgba(255,255,255,.12);
+        color: #fff;
+        cursor: pointer;
+    }
+
+    .portal-menu-toggle span {
+        display: block;
+        width: 1.15rem;
+        height: 2px;
+        border-radius: 2px;
+        background: currentColor;
+    }
+
+    .portal-menu-toggle:focus-visible {
+        outline: 3px solid rgba(255,255,255,.8);
+        outline-offset: 2px;
+    }
+
+    .portal-sidebar:not(.is-nav-open) .portal-section-label,
+    .portal-sidebar:not(.is-nav-open) .portal-nav {
+        display: none;
+    }
+
+    .portal-sidebar.is-nav-open .portal-section-label {
+        display: block;
+        margin-top: .9rem;
+    }
+
+    .portal-sidebar.is-nav-open .portal-nav {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: .35rem;
+    }
+
+    .portal-nav-link,
+    .portal-side-dropdown-toggle {
+        min-width: 0;
+        min-height: 2.75rem;
+    }
+
+    .portal-side-dropdown {
+        min-width: 0;
+    }
+
+    .portal-side-dropdown-toggle {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        gap: .65rem;
+        padding: .64rem .75rem;
+        border: 0;
+        border-radius: 11px;
+        background: transparent;
+        color: rgba(255,255,255,.82);
+        text-align: left;
+    }
+
+    .portal-side-dropdown-toggle:hover,
+    .portal-side-dropdown-toggle.is-active {
+        background: rgba(255,255,255,.14);
+        color: #fff;
+    }
+
+    .portal-side-dropdown .dropdown-menu {
+        position: static !important;
+        width: 100%;
+        min-width: 0;
+        margin: .25rem 0 .4rem;
+        transform: none !important;
+    }
+
+    .portal-side-dropdown .dropdown-menu .portal-nav-link {
+        padding-left: 1.25rem;
+    }
+
+    .portal-main {
+        width: 100%;
+    }
+
+    .portal-topbar {
+        min-width: 0;
+        padding-inline: .85rem;
+    }
+
+    .portal-topbar-actions {
+        gap: .4rem;
+    }
+
+    .portal-topbar-user {
+        min-height: 2.75rem;
+        padding: .2rem;
+    }
+
+    .portal-main .table-container {
+        padding-inline: .75rem;
+    }
+
+    .portal-main .table-responsive {
+        margin-bottom: .5rem;
+    }
+
+    .portal-main .form-control,
+    .portal-main .form-select,
+    .portal-main .btn {
+        min-height: 2.75rem;
+    }
+
+    .portal-main .btn-sm {
+        min-height: 2.5rem;
+        padding-inline: .7rem;
+    }
+
+    .admin-dashboard-grid,
+    .admin-dashboard-lower,
+    .teacher-dashboard-grid,
+    .teacher-content-grid {
+        grid-template-columns: minmax(0, 1fr) !important;
+    }
+
+    .admin-activity-chart,
+    .admin-academic-chart,
+    .teacher-activity-chart,
+    .student-chart-wrap {
+        min-width: 0;
+        width: 100%;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .login-shell {
+        padding-inline: .75rem !important;
+    }
+
+    .login-card .card-body {
+        padding: 1.15rem !important;
+    }
+
+    .brand-description {
+        overflow-wrap: anywhere;
+    }
+
+    .login-intro h1 {
+        font-size: clamp(1.9rem, 9vw, 2.7rem);
+    }
+
+    .container.my-5,
+    main.container {
+        padding-inline: .75rem;
+    }
+
+    .portal-topbar {
+        padding-inline: .7rem;
+    }
+
+    .portal-topbar > div:first-child small {
+        font-size: .65rem;
+    }
+
+    .portal-topbar-actions {
+        gap: .25rem;
+    }
+
+    .portal-theme-toggle {
+        width: 2.6rem;
+        min-height: 2.6rem;
+        justify-content: center;
+        padding-inline: .4rem;
+    }
+
+    .portal-main > .container,
+    .portal-main > .container-fluid,
+    .portal-main > main {
+        padding-inline: .75rem;
+    }
+
+    .portal-main .table-container {
+        padding-inline: .15rem;
+    }
+
+    .portal-main .judul,
+    .portal-main > .container > h1:not(.judul),
+    .portal-main > .container-fluid > h1:not(.judul),
+    .portal-main > main > h1:not(.judul) {
+        font-size: clamp(1.5rem, 7vw, 2rem);
+        line-height: 1.2;
+        margin-bottom: 1.1rem;
+    }
+
+    .portal-main .wrapper {
+        padding: 1rem !important;
+        margin-inline: 0;
+    }
+
+    .portal-main main.container > form.row.g-3 {
+        padding: 1rem;
+    }
+
+    .portal-main .dataTables_wrapper .row {
+        row-gap: .35rem;
+    }
+
+    .portal-main .dataTables_wrapper .dataTables_length,
+    .portal-main .dataTables_wrapper .dataTables_filter {
+        width: 100%;
+        text-align: left;
+    }
+
+    .portal-main .dataTables_wrapper .dataTables_filter input {
+        display: block;
+        width: 100%;
+        margin: .3rem 0 0;
+    }
+
+    .portal-main .dataTables_wrapper .pagination {
+        flex-wrap: wrap;
+    }
+
+    .portal-main .table .btn {
+        margin: .1rem;
+    }
+}

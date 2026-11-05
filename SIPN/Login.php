@@ -355,6 +355,7 @@ $loggedOut = ($_GET['logout'] ?? '') === '1';
 
     </style>
     <link rel="stylesheet" href="assets/css/academic-theme.css?v=6">
+    <link rel="stylesheet" href="assets/css/responsive.css?v=1">
 </head>
 <body>
 <button class="login-theme-toggle" type="button" data-login-theme-toggle aria-label="Aktifkan tema gelap">☾ Dark</button>
