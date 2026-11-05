@@ -847,15 +847,15 @@ require_once __DIR__ . '/Navbar.php';
     <?php if ($role === 'admin') { ?>
         <section class="admin-welcome" aria-label="Sambutan dashboard admin">
             <div class="admin-welcome-copy">
-                <span class="admin-welcome-wave" aria-hidden="true">👋</span>
-                <div><small>Portal Administrasi SIPN</small><h2>Selamat datang, <?= h($profil['nama'] ?? $_SESSION['username'] ?? 'Admin'); ?>!</h2><p>Pantau dan kelola data akademik dalam satu tempat.</p><span class="admin-welcome-date">◷ <?= h(date('D, d M Y')); ?> &nbsp;|&nbsp; <?= h(date('H:i')); ?> WIB</span></div>
+                <span class="admin-welcome-wave" aria-hidden="true">&#x1F44B;</span>
+                <div><small>Portal Administrasi SIPN</small><h2>Selamat datang, <?= h($profil['nama'] ?? $_SESSION['username'] ?? 'Admin'); ?>!</h2><p>Pantau dan kelola data akademik dalam satu tempat.</p><span class="admin-welcome-date">&#x25F7; <?= h(date('D, d M Y')); ?> &nbsp;|&nbsp; <?= h(date('H:i')); ?> WIB</span></div>
             </div>
             <div class="admin-welcome-art" aria-hidden="true"><span><?= $navIcon('school'); ?></span><i></i><b></b></div>
         </section>
     <?php } ?>
     <?php if ($role === 'guru') { ?>
         <section class="teacher-welcome" aria-label="Sambutan dashboard guru">
-            <div class="teacher-welcome-copy"><span class="teacher-welcome-wave" aria-hidden="true">👋</span><div><small>Teacher workspace</small><h2>Selamat datang, <?= h($profil['nama'] ?? $_SESSION['username'] ?? 'Guru'); ?>!</h2><p>Kelola pembelajaran dan pantau perkembangan siswa dengan mudah.</p><span class="teacher-welcome-date">◷ <?= h(date('D, d M Y')); ?> &nbsp;|&nbsp; <?= h(date('H:i')); ?> WIB</span></div></div>
+            <div class="teacher-welcome-copy"><span class="teacher-welcome-wave" aria-hidden="true">&#x1F44B;</span><div><small>Teacher workspace</small><h2>Selamat datang, <?= h($profil['nama'] ?? $_SESSION['username'] ?? 'Guru'); ?>!</h2><p>Kelola pembelajaran dan pantau perkembangan siswa dengan mudah.</p><span class="teacher-welcome-date">&#x25F7; <?= h(date('D, d M Y')); ?> &nbsp;|&nbsp; <?= h(date('H:i')); ?> WIB</span></div></div>
             <div class="teacher-welcome-art" aria-hidden="true"><span><?= $navIcon('school'); ?></span><i></i><b></b></div>
         </section>
     <?php } ?>
@@ -870,7 +870,7 @@ require_once __DIR__ . '/Navbar.php';
             <div class="col-12 col-sm-6 col-lg-4 <?= $role === 'admin' ? 'admin-stat-col' : ($role === 'guru' ? 'teacher-stat-col' : ''); ?>">
                 <a href="<?= h($link); ?>" class="text-decoration-none">
                     <div class="stat bg-<?= $warna; ?>">
-                        <?php if ($role === 'admin') { ?><span class="admin-stat-icon"><?= $navIcon($adminIconMap[$judul] ?? 'dashboard'); ?></span><span class="admin-stat-arrow">›</span><?php } elseif ($role === 'guru') { ?><span class="teacher-stat-icon"><?= $navIcon($teacherIconMap[$judul] ?? 'dashboard'); ?></span><span class="teacher-stat-arrow">›</span><?php } ?>
+                        <?php if ($role === 'admin') { ?><span class="admin-stat-icon"><?= $navIcon($adminIconMap[$judul] ?? 'dashboard'); ?></span><span class="admin-stat-arrow">&rsaquo;</span><?php } elseif ($role === 'guru') { ?><span class="teacher-stat-icon"><?= $navIcon($teacherIconMap[$judul] ?? 'dashboard'); ?></span><span class="teacher-stat-arrow">&rsaquo;</span><?php } ?>
                         <small><?= h($judul); ?></small>
                         <h2><?= h($nilai); ?></h2>
                         <?php if ($role === 'admin') { ?><span class="admin-stat-subtitle"><?= h($adminSubtitleMap[$judul] ?? 'Ringkasan data SIPN'); ?></span><?php } elseif ($role === 'guru') { ?><span class="teacher-stat-subtitle"><?= h($teacherSubtitleMap[$judul] ?? 'Ringkasan data guru'); ?></span><?php } ?>
@@ -908,7 +908,7 @@ require_once __DIR__ . '/Navbar.php';
                             <?php } ?>
                         </tbody></table></div>
                     <?php } else { ?><div class="admin-empty">Belum ada pengguna yang tersedia.</div><?php } ?>
-                    <a class="admin-view-all" href="Daftar_user.php">Lihat semua pengguna →</a>
+                    <a class="admin-view-all" href="Daftar_user.php">Lihat semua pengguna &rarr;</a>
                 </section>
                 <section class="admin-panel" aria-labelledby="admin-academic-title">
                     <div class="admin-panel-heading"><div><h2 id="admin-academic-title">Ringkasan Data Akademik</h2><p class="admin-panel-subtitle">Distribusi data dari database SIPN.</p></div></div>
@@ -934,9 +934,9 @@ require_once __DIR__ . '/Navbar.php';
             <section class="student-welcome" aria-label="Sambutan dashboard siswa">
                 <div class="student-welcome-copy">
                     <div class="student-eyebrow">Student learning space</div>
-                    <h2>Halo, <?= h($profil['nama'] ?? $_SESSION['username']); ?> 👋</h2>
+                    <h2>Halo, <?= h($profil['nama'] ?? $_SESSION['username']); ?> &#x1F44B;</h2>
                     <p>Terus pantau perkembangan belajarmu dan jadikan setiap nilai sebagai langkah menuju target berikutnya.</p>
-                    <span class="student-date"><span aria-hidden="true">◷</span><span data-student-date>Memuat tanggal...</span></span>
+                    <span class="student-date"><span aria-hidden="true">&#x25F7;</span><span data-student-date>Memuat tanggal...</span></span>
                 </div>
                 <div class="student-welcome-art" aria-hidden="true"><?= $navIcon('school'); ?></div>
             </section>
@@ -951,10 +951,10 @@ require_once __DIR__ . '/Navbar.php';
                         <div class="student-panel-heading"><h3 id="achievement-title">Pencapaianmu</h3><span>Data aktual</span></div>
                         <div class="student-achievement-list">
                             <div class="student-achievement"><span class="student-achievement-icon"><?= $navIcon('grades'); ?></span><span><small>Mapel tuntas</small><strong><?= h($siswaPencapaian['tuntas']); ?> dari <?= h(count($siswaMapel)); ?></strong></span></div>
-                            <div class="student-achievement"><span class="student-achievement-icon"><?= $navIcon('dashboard'); ?></span><span><small>Nilai terbaik</small><strong><?= $siswaPencapaian['nilai_terbaik'] === null ? 'Belum tersedia' : h(number_format($siswaPencapaian['nilai_terbaik'], 1) . ' · ' . $siswaPencapaian['mapel_terbaik']); ?></strong></span></div>
+                            <div class="student-achievement"><span class="student-achievement-icon"><?= $navIcon('dashboard'); ?></span><span><small>Nilai terbaik</small><strong><?= $siswaPencapaian['nilai_terbaik'] === null ? 'Belum tersedia' : h(number_format($siswaPencapaian['nilai_terbaik'], 1) . ' - ' . $siswaPencapaian['mapel_terbaik']); ?></strong></span></div>
                         </div>
                     </section>
-                    <section class="student-tip" aria-label="Tips belajar"><div class="student-tip-label">Study spark ✦</div><p data-study-tip>Atur waktu belajar dalam sesi singkat agar tetap fokus dan konsisten.</p></section>
+                    <section class="student-tip" aria-label="Tips belajar"><div class="student-tip-label">Study spark &#x2726;</div><p data-study-tip>Atur waktu belajar dalam sesi singkat agar tetap fokus dan konsisten.</p></section>
                 </div>
             </div>
             <div class="student-section-title"><h2>Mata pelajaranmu</h2><span><?= h(count($siswaMapel)); ?> mata pelajaran terdaftar</span></div>
@@ -964,8 +964,8 @@ require_once __DIR__ . '/Navbar.php';
                         <article class="student-subject-card">
                             <div class="student-subject-top"><h3><?= h($mapel['nama_mapel']); ?></h3><span class="student-status <?= $tuntas ? 'done' : 'pending'; ?>"><?= $dinilai ? h($mapel['Keterangan']) : 'Belum dinilai'; ?></span></div>
                             <p class="student-teacher">Pengajar: <?= h($mapel['nama_guru']); ?></p>
-                            <div class="student-grade"><small>Nilai rata-rata</small><strong><?= $dinilai ? h(number_format((float) $mapel['nilai_rata'], 1)) : '—'; ?></strong></div>
-                            <a class="student-detail-link" href="NILAI/Nilai_saya.php">Lihat detail nilai →</a>
+                            <div class="student-grade"><small>Nilai rata-rata</small><strong><?= $dinilai ? h(number_format((float) $mapel['nilai_rata'], 1)) : '-'; ?></strong></div>
+                            <a class="student-detail-link" href="NILAI/Nilai_saya.php">Lihat detail nilai &rarr;</a>
                         </article>
                     <?php } ?>
                 </div>

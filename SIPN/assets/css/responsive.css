@@ -509,3 +509,33 @@ canvas {
         margin: .1rem;
     }
 }
+
+@media (max-width: 767.98px) {
+    .login-shell {
+        align-items: flex-start !important;
+        justify-content: flex-start !important;
+        padding-top: 4.25rem !important;
+        padding-bottom: 1.5rem !important;
+    }
+
+    .login-layout {
+        width: min(100%, 30rem);
+        grid-template-columns: minmax(0, 1fr);
+        align-items: start;
+        gap: 0;
+    }
+
+    .login-intro {
+        display: none;
+    }
+
+    .login-card {
+        width: 100%;
+        max-width: none;
+        justify-self: stretch;
+    }
+
+    .login-card .card-body {
+        padding: clamp(1.15rem, 5vw, 1.75rem) !important;
+    }
+}

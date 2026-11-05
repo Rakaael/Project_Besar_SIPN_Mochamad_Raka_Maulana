@@ -355,10 +355,10 @@ $loggedOut = ($_GET['logout'] ?? '') === '1';
 
     </style>
     <link rel="stylesheet" href="assets/css/academic-theme.css?v=6">
-    <link rel="stylesheet" href="assets/css/responsive.css?v=1">
+    <link rel="stylesheet" href="assets/css/responsive.css?v=2">
 </head>
 <body>
-<button class="login-theme-toggle" type="button" data-login-theme-toggle aria-label="Aktifkan tema gelap">☾ Dark</button>
+<button class="login-theme-toggle" type="button" data-login-theme-toggle aria-label="Aktifkan tema gelap">&#x263E; Dark</button>
 <main class="container login-shell d-flex align-items-center justify-content-center py-5">
     <div class="login-layout">
     <section class="login-intro" aria-label="Tentang SIPN">
@@ -426,7 +426,7 @@ $loggedOut = ($_GET['logout'] ?? '') === '1';
         var root = document.documentElement;
         function update() {
             var dark = root.getAttribute('data-theme') === 'dark';
-            button.textContent = dark ? '☀ Light' : '☾ Dark';
+            button.textContent = dark ? '\u2600 Light' : '\u263E Dark';
             button.setAttribute('aria-label', dark ? 'Aktifkan tema terang' : 'Aktifkan tema gelap');
         }
         update();

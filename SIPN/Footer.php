@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         themeToggle.setAttribute('aria-pressed', String(isDark));
         themeToggle.setAttribute('aria-label', isDark ? 'Aktifkan tema terang' : 'Aktifkan tema gelap');
-        themeToggle.querySelector('.sipn-theme-icon').textContent = isDark ? '☀' : '☾';
+        themeToggle.querySelector('.sipn-theme-icon').textContent = isDark ? '\u2600' : '\u263E';
         themeToggle.querySelector('.sipn-theme-label').textContent = isDark ? 'Light' : 'Dark';
     }
 

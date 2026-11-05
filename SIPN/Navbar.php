@@ -119,7 +119,7 @@ $navIcon = static function (string $name): string {
                 var dark = root.getAttribute('data-theme') === 'dark';
                 toggle.setAttribute('aria-pressed', String(dark));
                 toggle.setAttribute('aria-label', dark ? 'Aktifkan tema terang' : 'Aktifkan tema gelap');
-                toggle.querySelector('.sipn-theme-icon').textContent = dark ? '☀' : '☾';
+                toggle.querySelector('.sipn-theme-icon').textContent = dark ? '\u2600' : '\u263E';
                 toggle.querySelector('.sipn-theme-label').textContent = dark ? 'Light' : 'Dark';
             }
             updateToggle();
@@ -135,7 +135,7 @@ $navIcon = static function (string $name): string {
 <?php if ($navCurrentPage !== 'Dashboard.php') { ?>
 <link rel="stylesheet" href="<?= h($navHref('assets/css/academic-theme.css')); ?>?v=6">
 <?php } ?>
-<link rel="stylesheet" href="<?= h($navHref('assets/css/responsive.css')); ?>?v=1">
+<link rel="stylesheet" href="<?= h($navHref('assets/css/responsive.css')); ?>?v=2">
 <?php if (false) { ?><nav class="navbar navbar-expand-lg navbar-dark sipn-navbar">
     <div class="container-fluid">
         <a class="navbar-brand" href="Dashboard.php">
@@ -213,7 +213,7 @@ $navIcon = static function (string $name): string {
             </ul>
             <div class="d-flex align-items-center gap-3">
                 <button class="sipn-theme-toggle" type="button" data-theme-toggle aria-label="Aktifkan tema gelap" aria-pressed="false">
-                    <span class="sipn-theme-icon" aria-hidden="true">☾</span>
+                    <span class="sipn-theme-icon" aria-hidden="true">&#x263E;</span>
                     <span class="sipn-theme-label">Dark</span>
                 </button>
                 <?php if ($isLoggedIn) { ?>
@@ -329,7 +329,7 @@ $navIcon = static function (string $name): string {
         <?php if ($isLoggedIn && in_array($navRole, ['admin', 'guru'], true)) { ?>
             <section class="sidebar-education-quote" aria-label="Quote pendidikan">
                 <div class="sidebar-education-quote-icon" aria-hidden="true"><?= $navIcon('open-book'); ?></div>
-                <p><?= $navRole === 'admin' ? '“Selalu ada ruang untuk belajar dan berkembang.”' : '“Pendidikan adalah investasi terbaik untuk masa depan.”'; ?></p>
+                <p><?= $navRole === 'admin' ? '&ldquo;Selalu ada ruang untuk belajar dan berkembang.&rdquo;' : '&ldquo;Pendidikan adalah investasi terbaik untuk masa depan.&rdquo;'; ?></p>
             </section>
         <?php } ?>
         <?php if ($isLoggedIn && $navRole === 'siswa' && in_array($navCurrentPage, ['Dashboard.php', 'Nilai_saya.php'], true)) {
@@ -354,7 +354,7 @@ $navIcon = static function (string $name): string {
             <div><strong>SIPN</strong><small>Portal Akademik</small></div>
             <div class="portal-topbar-actions">
                 <button class="sipn-theme-toggle portal-theme-toggle" type="button" data-theme-toggle aria-label="Aktifkan tema gelap" aria-pressed="false">
-                    <span class="sipn-theme-icon" aria-hidden="true">â˜¾</span>
+                    <span class="sipn-theme-icon" aria-hidden="true">&#x263E;</span>
                     <span class="sipn-theme-label">Dark</span>
                 </button>
             <div class="dropdown portal-user-menu">
