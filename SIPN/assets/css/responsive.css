@@ -510,7 +510,7 @@ canvas {
     }
 }
 
-@media (max-width: 767.98px) {
+@media (max-width: 991.98px) {
     .login-shell {
         align-items: flex-start !important;
         justify-content: flex-start !important;

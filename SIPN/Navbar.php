@@ -135,7 +135,7 @@ $navIcon = static function (string $name): string {
 <?php if ($navCurrentPage !== 'Dashboard.php') { ?>
 <link rel="stylesheet" href="<?= h($navHref('assets/css/academic-theme.css')); ?>?v=6">
 <?php } ?>
-<link rel="stylesheet" href="<?= h($navHref('assets/css/responsive.css')); ?>?v=2">
+<link rel="stylesheet" href="<?= h($navHref('assets/css/responsive.css')); ?>?v=3">
 <?php if (false) { ?><nav class="navbar navbar-expand-lg navbar-dark sipn-navbar">
     <div class="container-fluid">
         <a class="navbar-brand" href="Dashboard.php">
