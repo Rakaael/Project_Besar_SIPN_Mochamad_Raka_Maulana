@@ -1,24 +1,35 @@
 <?php
-// Koneksi database dipusatkan di file ini agar tidak ditulis ulang di setiap halaman.
 
-$host = 'localhost';
-$username = 'root';
-$password = '';
-$database = 'db_siacad_smk_2';
+// Konfigurasi database InfinityFree
+$host = "sql312.infinityfree.com";
+$user = "if0_43364739";
+$pass = "RakaProject2026";
+$db   = "if0_43364739_Sipn";
 
+// Matikan laporan error mysqli
 mysqli_report(MYSQLI_REPORT_OFF);
-$koneksi = mysqli_connect($host, $username, $password, $database);
 
+// Hubungkan ke database
+$koneksi = mysqli_connect(
+    $host,
+    $user,
+    $pass,
+    $db,
+    3306
+);
+
+// Periksa koneksi
 if (!$koneksi) {
-    error_log('[SIPN] Database connection failed: ' . mysqli_connect_error());
+    error_log("[SIPN] Database connection failed: " . mysqli_connect_error());
     http_response_code(500);
-    exit('Aplikasi tidak dapat terhubung ke database.');
+    exit("Aplikasi tidak dapat terhubung ke database.");
 }
 
-if (!mysqli_set_charset($koneksi, 'utf8mb4')) {
-    error_log('[SIPN] Failed to set database connection charset: ' . mysqli_error($koneksi));
+// Atur karakter database
+if (!mysqli_set_charset($koneksi, "utf8mb4")) {
+    error_log("[SIPN] Gagal mengatur charset database.");
     http_response_code(500);
-    exit('Koneksi database tidak dapat disiapkan.');
+    exit("Koneksi database tidak dapat disiapkan.");
 }
 
 ?>
