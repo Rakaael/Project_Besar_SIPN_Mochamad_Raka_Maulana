@@ -4,10 +4,7 @@ require_once dirname(__DIR__) . '/Auth.php';
 wajib_role(['admin']);
 
 // Validasi mapel, kelas, dan pilihan siswa sebelum mengganti seluruh penugasan kelompok.
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: Mengajar.php');
-    exit;
-}
+wajib_post_csrf();
 
 $mapelId = filter_var($_POST['mapel_id'] ?? null, FILTER_VALIDATE_INT);
 $kelasInput = $_POST['kelas'] ?? '';

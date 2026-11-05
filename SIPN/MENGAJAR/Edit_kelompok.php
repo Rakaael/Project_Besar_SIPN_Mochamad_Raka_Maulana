@@ -45,6 +45,7 @@ require_once dirname(__DIR__) . '/Navbar.php';
             <strong>Kelas:</strong> <?= h($kelas); ?></p>
         <p class="text-secondary">Pilih siswa yang terdaftar pada mata pelajaran ini di kelas tersebut. Penugasan yang sudah memiliki nilai tidak dapat dihapus.</p>
         <form action="MENGAJAR/Aksi_edit_kelompok.php" method="post">
+            <input type="hidden" name="csrf_token" value="<?= h(token_csrf()); ?>">
             <input type="hidden" name="mapel_id" value="<?= (int) $mapelId; ?>">
             <input type="hidden" name="kelas" value="<?= h($kelas); ?>">
             <div class="row g-2 mb-3" style="max-height: 360px; overflow-y: auto;">

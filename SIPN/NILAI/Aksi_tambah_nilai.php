@@ -4,10 +4,7 @@ require_once dirname(__DIR__) . '/Auth.php';
 wajib_role(['guru']);
 
 // Validasi data nilai dan pasangan siswa-mapel yang dikirim oleh guru.
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: Nilai.php');
-    exit;
-}
+wajib_post_csrf();
 
 $guru = profil_saya($koneksi);
 $pasanganInput = $_POST['pasangan'] ?? '';

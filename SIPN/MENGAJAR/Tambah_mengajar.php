@@ -15,6 +15,7 @@ require_once dirname(__DIR__) . '/Navbar.php';
     <h1 class="h2 mb-4">Tambah Mengajar</h1>
     <?php notifikasi([], ['invalid' => 'Pilih mata pelajaran yang tersedia dan minimal satu siswa yang valid.', 'duplicate' => 'Semua siswa yang dipilih sudah terdaftar di mapel tersebut.', 'failed' => 'Operasi gagal. Silakan coba lagi.']); ?>
     <form action="MENGAJAR/Aksi_tambah_mengajar.php" method="post" class="kartu">
+        <input type="hidden" name="csrf_token" value="<?= h(token_csrf()); ?>">
         <div class="mb-3">
             <label for="mapel_id" class="form-label">Mata Pelajaran</label>
             <select class="form-select" id="mapel_id" name="mapel_id" required>

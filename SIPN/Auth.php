@@ -2,6 +2,18 @@
 // Fungsi umum untuk login, hak akses, query database, dan tampilan halaman.
 mysqli_report(MYSQLI_REPORT_OFF);
 if (session_status() !== PHP_SESSION_ACTIVE) {
+    ini_set('session.use_strict_mode', '1');
+    ini_set('session.use_only_cookies', '1');
+    $cookieParams = session_get_cookie_params();
+    $isHttps = !empty($_SERVER['HTTPS']) && strtolower((string) $_SERVER['HTTPS']) !== 'off';
+    session_set_cookie_params([
+        'lifetime' => $cookieParams['lifetime'],
+        'path' => $cookieParams['path'] !== '' ? $cookieParams['path'] : '/',
+        'domain' => $cookieParams['domain'],
+        'secure' => $isHttps,
+        'httponly' => true,
+        'samesite' => 'Lax',
+    ]);
     session_start();
 }
 
@@ -66,6 +78,16 @@ function wajib_role(array $roles)
         header('Location: ' . APP_URL . '/Login.php?error=required');
         exit;
     }
+    global $koneksi;
+    require_once __DIR__ . '/Koneksi.php';
+    $user = ambil($koneksi, 'SELECT role FROM users WHERE id = ? LIMIT 1', 'i', [(int) $_SESSION['user_id']])[0] ?? null;
+    if (!$user) {
+        $_SESSION = [];
+        session_regenerate_id(true);
+        header('Location: ' . APP_URL . '/Login.php?error=required');
+        exit;
+    }
+    $_SESSION['role'] = $user['role'];
     if (!cocok_role($_SESSION['role'] ?? '', $roles)) {
         header('Location: ' . APP_URL . '/Dashboard.php');
         exit;
@@ -96,35 +118,55 @@ function csrf_valid($token)
         && hash_equals($_SESSION['csrf_token'], $token);
 }
 
+function wajib_post_csrf()
+{
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        header('Allow: POST');
+        http_response_code(405);
+        exit('Metode permintaan tidak diizinkan.');
+    }
+    if (!csrf_valid($_POST['csrf_token'] ?? null)) {
+        http_response_code(403);
+        exit('Permintaan tidak valid. Muat ulang halaman dan coba lagi.');
+    }
+}
+
+function gagal_internal($detail)
+{
+    error_log('[SIPN] ' . $detail);
+    http_response_code(500);
+    exit('Terjadi kesalahan internal. Silakan coba lagi.');
+}
+
 // Jalankan query SELECT dan kembalikan hasilnya sebagai array.
 function ambil($koneksi, $sql, $tipe = '', $param = [])
 {
     $param = is_array($param) ? array_values($param) : [];
     $stmt = mysqli_prepare($koneksi, $sql);
     if (!$stmt) {
-        die('Query gagal: ' . mysqli_error($koneksi));
+        gagal_internal('Database query preparation failed: ' . mysqli_error($koneksi));
     }
     if ($tipe !== '') {
         if (!is_string($tipe) || strlen($tipe) !== count($param)) {
             mysqli_stmt_close($stmt);
-            die('Parameter query tidak valid.');
+            gagal_internal('Invalid prepared statement parameter count.');
         }
         if (!mysqli_stmt_bind_param($stmt, $tipe, ...$param)) {
             $error = mysqli_stmt_error($stmt);
             mysqli_stmt_close($stmt);
-            die('Parameter query tidak valid: ' . $error);
+            gagal_internal('Database parameter binding failed: ' . $error);
         }
     }
     if (!mysqli_stmt_execute($stmt)) {
         $error = mysqli_stmt_error($stmt);
         mysqli_stmt_close($stmt);
-        die('Query gagal dijalankan: ' . $error);
+        gagal_internal('Database query execution failed: ' . $error);
     }
     $hasil = mysqli_stmt_get_result($stmt);
     if (!$hasil) {
         $error = mysqli_stmt_error($stmt);
         mysqli_stmt_close($stmt);
-        die('Hasil query gagal dibaca: ' . $error);
+        gagal_internal('Database query result could not be read: ' . $error);
     }
     $baris = mysqli_fetch_all($hasil, MYSQLI_ASSOC);
     mysqli_stmt_close($stmt);

@@ -48,6 +48,7 @@ require_once dirname(__DIR__) . '/Navbar.php';
                 <?php if ($isAdmin) { ?><td class="text-nowrap">
                     <a class="btn btn-warning btn-sm" href="MENGAJAR/Edit_kelompok.php?mapel_id=<?= (int) $d['mapel_id']; ?>&amp;kelas=<?= urlencode($d['kelas_diajar']); ?>">Edit</a>
                     <form class="d-inline" action="MENGAJAR/Aksi_hapus_kelompok.php" method="post" onsubmit="return confirm('Hapus semua penugasan siswa untuk mapel ini di kelas <?= h($d['kelas_diajar']); ?>? Penugasan yang sudah memiliki nilai akan ditolak.')">
+                        <input type="hidden" name="csrf_token" value="<?= h(token_csrf()); ?>">
                         <input type="hidden" name="mapel_id" value="<?= (int) $d['mapel_id']; ?>">
                         <input type="hidden" name="kelas" value="<?= h($d['kelas_diajar']); ?>">
                         <button class="btn btn-danger btn-sm" type="submit">Hapus</button>

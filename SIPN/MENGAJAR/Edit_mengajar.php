@@ -21,6 +21,7 @@ require_once dirname(__DIR__) . '/Navbar.php';
     <h1 class="h2 mb-4">Edit Mengajar</h1>
     <?php notifikasi([], ['duplicate' => 'Pasangan mapel dan siswa tersebut sudah ada.', 'invalid' => 'Data tidak valid.', 'has_grades' => 'Penugasan tidak dapat diubah karena sudah memiliki nilai.', 'failed' => 'Operasi gagal. Silakan coba lagi.']); ?>
     <form action="MENGAJAR/Aksi_edit_mengajar.php" method="post" class="kartu row g-3">
+        <input type="hidden" name="csrf_token" value="<?= h(token_csrf()); ?>">
         <input type="hidden" name="id" value="<?= (int) $baris['id']; ?>">
         <div class="col-md-6">
             <label for="mapel_id" class="form-label">Mata Pelajaran</label>

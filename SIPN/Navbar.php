@@ -1,7 +1,5 @@
 <?php
-if (session_status() !== PHP_SESSION_ACTIVE) {
-    session_start();
-}
+require_once __DIR__ . '/Auth.php';
 if (!function_exists('h')) {
     function h($nilai)
     {
@@ -300,8 +298,8 @@ $navIcon = static function (string $name): string {
             <div class="portal-sidebar-student-extras">
                 <section class="sidebar-info-panel" aria-labelledby="sidebar-info-title">
                     <div class="sidebar-panel-heading" id="sidebar-info-title"><span>Informasi</span><small>SIPN</small></div>
-                    <div class="sidebar-info-item"><span class="sidebar-info-icon"><?= $navIcon('calendar'); ?></span><span><small>Tahun Ajaran</small><strong>Belum tersedia</strong></span></div>
-                    <div class="sidebar-info-item"><span class="sidebar-info-icon"><?= $navIcon('calendar'); ?></span><span><small>Semester</small><strong>Belum tersedia</strong></span></div>
+                    <div class="sidebar-info-item"><span class="sidebar-info-icon"><?= $navIcon('calendar'); ?></span><span><small>Tahun Ajaran</small><strong>2025-2027</strong></span></div>
+                    <div class="sidebar-info-item"><span class="sidebar-info-icon"><?= $navIcon('calendar'); ?></span><span><small>Semester</small><strong>Genap</strong></span></div>
                     <div class="sidebar-info-item"><span class="sidebar-info-icon"><?= $navIcon('book'); ?></span><span><small>Mapel Diikuti</small><strong><?= $navMapelDiikuti === null ? 'Belum tersedia' : h($navMapelDiikuti); ?></strong></span></div>
                 </section>
                 <section class="sidebar-study-tip" aria-labelledby="sidebar-tip-title">

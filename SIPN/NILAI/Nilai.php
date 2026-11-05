@@ -126,6 +126,7 @@ require_once dirname(__DIR__) . '/Navbar.php';
                     <?php } else { ?>
                     <a class="btn btn-warning btn-sm" href="NILAI/Edit_nilai.php?id=<?= (int) $d['id']; ?>">Edit</a>
                     <form class="d-inline" action="NILAI/Aksi_hapus_nilai.php" method="post" onsubmit="return confirm('Yakin ingin menghapus nilai ini?')">
+                        <input type="hidden" name="csrf_token" value="<?= h(token_csrf()); ?>">
                         <input type="hidden" name="id" value="<?= (int) $d['id']; ?>">
                         <button class="btn btn-danger btn-sm" type="submit">Hapus</button>
                     </form>

@@ -4,7 +4,7 @@ require_once dirname(__DIR__) . '/Koneksi.php';
 // Ambil opsi guru lebih dulu agar dapat dipilih saat mata pelajaran baru dibuat.
 $guruQuery = mysqli_query($koneksi, 'SELECT id, nama FROM guru ORDER BY nama ASC');
 if (!$guruQuery) {
-    die('Gagal mengambil daftar guru: ' . mysqli_error($koneksi));
+    gagal_internal('Teacher list query failed: ' . mysqli_error($koneksi));
 }
 $errorMessages = [
     'duplicate' => 'Kode mapel sudah digunakan.',
@@ -32,6 +32,7 @@ $error = $errorMessages[$_GET['error'] ?? ''] ?? null;
         <div class="alert alert-danger" role="alert"><?= htmlspecialchars($error); ?></div>
     <?php } ?>
     <form action="MAPEL/Aksi_tambah_mapel.php" method="post" class="row g-3">
+        <input type="hidden" name="csrf_token" value="<?= h(token_csrf()); ?>">
         <div class="col-md-4">
             <label for="kode_mapel" class="form-label">Kode Mapel</label>
             <input type="text" class="form-control" id="kode_mapel" name="kode_mapel" maxlength="10" pattern="[A-Za-z0-9_-]{1,10}" required>

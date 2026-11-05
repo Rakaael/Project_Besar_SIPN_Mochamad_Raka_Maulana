@@ -4,10 +4,7 @@ require_once dirname(__DIR__) . '/Auth.php';
 wajib_role(['guru']);
 
 // Verifikasi kepemilikan nilai oleh guru sebelum menghapus catatan rapor.
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: Nilai.php');
-    exit;
-}
+wajib_post_csrf();
 
 $guru = profil_saya($koneksi);
 $id = filter_var($_POST['id'] ?? null, FILTER_VALIDATE_INT);

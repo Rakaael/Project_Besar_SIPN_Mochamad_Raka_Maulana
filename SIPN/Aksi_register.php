@@ -1,9 +1,8 @@
 <?php
+require_once __DIR__ . '/Auth.php';
+
 // Terima pendaftaran siswa publik hanya melalui formulir POST dengan data yang valid.
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: Login.php');
-    exit;
-}
+wajib_post_csrf();
 
 $usernameInput = $_POST['username'] ?? '';
 $password = $_POST['password'] ?? '';
@@ -32,9 +31,6 @@ if (!$isValid) {
     exit;
 }
 
-if (session_status() !== PHP_SESSION_ACTIVE) {
-    session_start();
-}
 $_SESSION['public_student_registration'] = true;
 $_POST['role'] = 'siswa';
 $_POST['kelas'] = '';

@@ -26,6 +26,7 @@ $error = $errorMessages[$_GET['error'] ?? ''] ?? null;
             <div class="card border border-2 border-secondary-subtle rounded-4 shadow-sm" style="background: #f7f7f7;">
                 <div class="card-body p-4 p-md-5">
                     <form action="proses_tambah.php" method="POST">
+                        <input type="hidden" name="csrf_token" value="<?= h(token_csrf()); ?>">
                         <?php if ($error) { ?><div class="alert alert-danger" role="alert"><?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8'); ?></div><?php } ?>
                         <h3 class="mb-3">Tambah Akun Admin</h3>
                         <label for="nama_admin" class="form-label">Nama Lengkap</label>

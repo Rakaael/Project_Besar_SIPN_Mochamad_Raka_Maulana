@@ -1,24 +1,17 @@
 <?php
 mysqli_report(MYSQLI_REPORT_OFF);
 require_once __DIR__ . '/Koneksi.php';
+require_once __DIR__ . '/Auth.php';
 
 // Bedakan pendaftaran siswa umum dengan pembuatan akun oleh admin.
-if (session_status() !== PHP_SESSION_ACTIVE) {
-    session_start();
-}
 $isPublicRegistration = ($_SESSION['public_student_registration'] ?? false) === true;
 unset($_SESSION['public_student_registration']);
 if (!$isPublicRegistration) {
     // Hanya admin yang boleh membuat akun dari halaman pengelolaan user.
-    require_once __DIR__ . '/Auth.php';
     wajib_role(['admin']);
 }
 
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    // File ini hanya menerima data dari formulir.
-    header('Location: Daftar_user.php');
-    exit;
-}
+wajib_post_csrf();
 
 $postText = static function ($key) {
     $value = $_POST[$key] ?? '';

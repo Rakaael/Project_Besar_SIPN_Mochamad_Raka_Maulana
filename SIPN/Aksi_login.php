@@ -1,12 +1,10 @@
 <?php
 mysqli_report(MYSQLI_REPORT_OFF);
 require_once __DIR__ . '/Koneksi.php';
+require_once __DIR__ . '/Auth.php';
 
 // Batasi pemrosesan kredensial pada permintaan POST dari formulir login.
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: Login.php');
-    exit;
-}
+wajib_post_csrf();
 
 $usernameInput = $_POST['username'] ?? '';
 $username = is_string($usernameInput) ? trim($usernameInput) : '';
@@ -69,9 +67,6 @@ if (!$passwordValid) {
 }
 
 // Buat sesi baru setelah autentikasi berhasil untuk mencegah session fixation.
-if (session_status() !== PHP_SESSION_ACTIVE) {
-    session_start();
-}
 session_regenerate_id(true);
 $_SESSION['user_id'] = (int) $user['id'];
 $_SESSION['username'] = $user['username'];

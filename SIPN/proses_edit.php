@@ -3,12 +3,7 @@ require_once __DIR__ . '/Koneksi.php';
 require_once __DIR__ . '/Auth.php';
 // Pengeditan user dibatasi untuk admin.
 wajib_role(['admin']);
-
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    // File ini hanya menerima data dari formulir edit.
-    header('Location: Daftar_user.php');
-    exit;
-}
+wajib_post_csrf();
 
 $postText = static function ($key) {
     $value = $_POST[$key] ?? '';

@@ -4,10 +4,7 @@ require_once dirname(__DIR__) . '/Auth.php';
 wajib_role(['guru']);
 
 // Ambil profil guru, validasi nilai, dan pastikan catatan memang berada di bawah kewenangannya.
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: Nilai.php');
-    exit;
-}
+wajib_post_csrf();
 
 $guru = profil_saya($koneksi);
 $id = filter_var($_POST['id'] ?? null, FILTER_VALIDATE_INT);

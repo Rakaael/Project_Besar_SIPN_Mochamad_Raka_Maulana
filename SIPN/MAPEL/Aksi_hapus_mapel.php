@@ -3,15 +3,8 @@ require_once dirname(__DIR__) . '/Auth.php'; wajib_role(['admin']);
 mysqli_report(MYSQLI_REPORT_OFF);
 require_once dirname(__DIR__) . '/Koneksi.php';
 
-// Terima hanya penghapusan POST dengan ID mapel yang valid.
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: Mapel.php');
-    exit;
-}
-if (!csrf_valid($_POST['csrf_token'] ?? null)) {
-    header('Location: Mapel.php?error=invalid');
-    exit;
-}
+// Terima hanya penghapusan mapel dari formulir yang valid.
+wajib_post_csrf();
 
 $id = filter_var($_POST['id'] ?? null, FILTER_VALIDATE_INT);
 if (!$id || $id < 1) {

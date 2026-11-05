@@ -34,7 +34,6 @@ $csrfToken = token_csrf();
             <tr>
                 <th>No</th>
                 <th>Username</th>
-                <th>Password</th>
                 <th>Role</th>
                 <th>Created</th>
                 <th>Aksi</th>
@@ -45,26 +44,23 @@ $csrfToken = token_csrf();
         // Nomor urut untuk daftar.
         $no = 1;
 
-        // Password ditampilkan sebagai hash sesuai permintaan, bukan sebagai password asli.
-        $query = mysqli_query($koneksi, "SELECT u.id, u.username, u.password, u.role, u.created_at
+        $query = mysqli_query($koneksi, "SELECT u.id, u.username, u.role, u.created_at
             FROM users u
             ORDER BY u.id DESC");
 
         if (!$query) {
-            die('Query gagal: ' . mysqli_error($koneksi));
+            gagal_internal('User list query failed: ' . mysqli_error($koneksi));
         }
 
         while ($data = mysqli_fetch_assoc($query)) {
             $id_user = $data['id'] ?? null;
             $username = $data['username'] ?? '';
-            $passwordHash = $data['password'] ?? '';
             $role = $data['role'] ?? '';
             $created_at = $data['created_at'] ?? '';
             ?>
             <tr>
                 <td><?= $no++; ?></td>
                 <td><?= htmlspecialchars($username, ENT_QUOTES, 'UTF-8'); ?></td>
-                <td><?= htmlspecialchars($passwordHash, ENT_QUOTES, 'UTF-8'); ?></td>
                 <td><?= htmlspecialchars($role, ENT_QUOTES, 'UTF-8'); ?></td>
                 <td><?= htmlspecialchars($created_at, ENT_QUOTES, 'UTF-8'); ?></td>
                 <td>

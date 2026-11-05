@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . '/Auth.php';
+
 // File ini berisi form untuk menambahkan data siswa baru.
 // Siswa mengisi NIS, nama, jenis kelamin, username, dan password; kelas ditetapkan admin.
 $errorMessages = [
@@ -26,6 +28,7 @@ $error = $errorMessages[$_GET['error'] ?? ''] ?? null;
             <div class="card border border-2 border-secondary-subtle rounded-4 shadow-sm">
                 <div class="card-body p-4 p-md-5">
                     <form action="Aksi_register.php" method="POST">
+                        <input type="hidden" name="csrf_token" value="<?= h(token_csrf()); ?>">
                         <?php if ($error) { ?>
                             <div class="alert alert-danger" role="alert"><?= htmlspecialchars($error); ?></div>
                         <?php } ?>

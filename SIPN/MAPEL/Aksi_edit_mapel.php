@@ -3,11 +3,8 @@ require_once dirname(__DIR__) . '/Auth.php'; wajib_role(['admin']);
 mysqli_report(MYSQLI_REPORT_OFF);
 require_once dirname(__DIR__) . '/Koneksi.php';
 
-// Perubahan mapel hanya diproses dari formulir POST dengan ID yang valid.
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: Mapel.php');
-    exit;
-}
+// Perubahan mapel hanya diproses dari formulir yang valid.
+wajib_post_csrf();
 
 $id = filter_var($_POST['id'] ?? null, FILTER_VALIDATE_INT);
 if (!$id || $id < 1) {

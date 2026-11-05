@@ -4,10 +4,7 @@ require_once __DIR__ . '/Auth.php'; wajib_role(['admin']);
 // Proses hapus dibuat dalam transaksi agar data tidak setengah-hapus.
 require_once __DIR__ . '/Koneksi.php';
 
-if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !csrf_valid($_POST['csrf_token'] ?? null)) {
-    header('Location: Daftar_user.php?error=invalid');
-    exit;
-}
+wajib_post_csrf();
 
 $id = filter_var($_POST['id'] ?? null, FILTER_VALIDATE_INT);
 if (!$id || $id < 1) {

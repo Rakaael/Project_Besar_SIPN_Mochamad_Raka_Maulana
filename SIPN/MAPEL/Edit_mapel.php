@@ -11,16 +11,21 @@ if (!$id || $id < 1) {
 
 $stmt = mysqli_prepare($koneksi, 'SELECT id, kode_mapel, nama_mapel, guru_id FROM mapel WHERE id = ?');
 if (!$stmt) {
-    die('Gagal menyiapkan data mapel: ' . mysqli_error($koneksi));
+    gagal_internal('Subject query preparation failed: ' . mysqli_error($koneksi));
 }
-mysqli_stmt_bind_param($stmt, 'i', $id);
-$executed = mysqli_stmt_execute($stmt);
-$result = $executed ? mysqli_stmt_get_result($stmt) : false;
-$mapel = $result ? mysqli_fetch_assoc($result) : null;
+if (!mysqli_stmt_bind_param($stmt, 'i', $id) || !mysqli_stmt_execute($stmt)) {
+    $error = mysqli_stmt_error($stmt);
+    mysqli_stmt_close($stmt);
+    gagal_internal('Subject query execution failed: ' . $error);
+}
+$result = mysqli_stmt_get_result($stmt);
+if (!$result) {
+    $error = mysqli_stmt_error($stmt);
+    mysqli_stmt_close($stmt);
+    gagal_internal('Subject query result could not be read: ' . $error);
+}
+$mapel = mysqli_fetch_assoc($result);
 mysqli_stmt_close($stmt);
-if (!$executed || !$result) {
-    die('Gagal mengambil data mapel.');
-}
 
 if (!$mapel) {
     header('Location: Mapel.php?error=not_found');
@@ -29,7 +34,7 @@ if (!$mapel) {
 
 $guruQuery = mysqli_query($koneksi, 'SELECT id, nama FROM guru ORDER BY nama ASC');
 if (!$guruQuery) {
-    die('Gagal mengambil daftar guru: ' . mysqli_error($koneksi));
+    gagal_internal('Teacher list query failed: ' . mysqli_error($koneksi));
 }
 $errorMessages = [
     'duplicate' => 'Kode mapel sudah digunakan oleh mapel lain.',
@@ -59,6 +64,7 @@ $escape = static fn($value) => htmlspecialchars((string) $value, ENT_QUOTES, 'UT
         <div class="alert alert-danger" role="alert"><?= $escape($error); ?></div>
     <?php } ?>
     <form action="MAPEL/Aksi_edit_mapel.php" method="post" class="row g-3">
+        <input type="hidden" name="csrf_token" value="<?= h(token_csrf()); ?>">
         <input type="hidden" name="id" value="<?= (int) $mapel['id']; ?>">
         <div class="col-md-4">
             <label for="kode_mapel" class="form-label">Kode Mapel</label>

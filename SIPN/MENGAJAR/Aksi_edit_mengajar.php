@@ -4,10 +4,7 @@ require_once dirname(__DIR__) . '/Auth.php';
 wajib_role(['admin']);
 
 // Pastikan formulir dan ID relasi lengkap sebelum memeriksa potensi pasangan duplikat.
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: Mengajar.php');
-    exit;
-}
+wajib_post_csrf();
 
 $id = filter_var($_POST['id'] ?? null, FILTER_VALIDATE_INT);
 $mapelId = filter_var($_POST['mapel_id'] ?? null, FILTER_VALIDATE_INT);

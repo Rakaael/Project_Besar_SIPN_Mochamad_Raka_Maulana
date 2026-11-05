@@ -4,10 +4,7 @@ require_once dirname(__DIR__) . '/Koneksi.php';
 require_once dirname(__DIR__) . '/Auth.php';
 wajib_role(['admin', 'guru', 'siswa']);
 
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: Profil.php');
-    exit;
-}
+wajib_post_csrf();
 
 $role = $_SESSION['role'];
 $userId = (int) $_SESSION['user_id'];

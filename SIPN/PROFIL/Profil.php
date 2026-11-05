@@ -35,10 +35,10 @@ if ($profil) {
 kepala('Profil Saya', true);
 require_once dirname(__DIR__) . '/Navbar.php';
 ?>
-<main class="container py-4" style="max-width: 640px;">
-    <h1 class="h2 mb-4">Profil Saya</h1>
+<main class="container py-4 profile-page">
+    <h1 class="h2 mb-4 profile-heading">Profil Saya</h1>
     <?php notifikasi(['updated' => 'Profil berhasil diperbarui.'], []); ?>
-    <div class="kartu">
+    <div class="kartu profile-card">
         <div class="d-flex justify-content-center mb-3">
             <?php if ($fotoUrl) { ?>
                 <img src="<?= h($fotoUrl); ?>" class="profile-photo" alt="Foto profil <?= h($displayName); ?>">
@@ -46,11 +46,14 @@ require_once dirname(__DIR__) . '/Navbar.php';
                 <span class="profile-photo profile-photo-fallback" aria-hidden="true"><?= h($initial); ?></span>
             <?php } ?>
         </div>
-        <table class="table mb-4">
+        <div class="profile-details mb-4">
             <?php foreach ($baris as $label => $isi) { ?>
-                <tr><th style="width: 35%;"><?= h($label); ?></th><td><?php if ($label === 'Role') { ?><span class="role-badge <?= h($roleBadgeClass); ?>"><?= h($isi); ?></span><?php } else { ?><?= h($isi); ?><?php } ?></td></tr>
+                <div class="profile-detail-row">
+                    <div class="profile-detail-label"><?= h($label); ?></div>
+                    <div class="profile-detail-value"><?php if ($label === 'Role') { ?><span class="role-badge <?= h($roleBadgeClass); ?>"><?= h($isi); ?></span><?php } else { ?><?= h($isi); ?><?php } ?></div>
+                </div>
             <?php } ?>
-        </table>
+        </div>
         <a href="PROFIL/Edit_profil.php" class="btn btn-primary">Edit Profil</a>
     </div>
 </main>

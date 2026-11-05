@@ -4,10 +4,7 @@ mysqli_report(MYSQLI_REPORT_OFF);
 require_once dirname(__DIR__) . '/Koneksi.php';
 
 // Pastikan pengiriman formulir serta penetapan guru dan identitas mapel valid.
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: Mapel.php');
-    exit;
-}
+wajib_post_csrf();
 
 $kodeInput = $_POST['kode_mapel'] ?? '';
 $namaInput = $_POST['nama_mapel'] ?? '';

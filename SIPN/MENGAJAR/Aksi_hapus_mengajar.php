@@ -4,10 +4,7 @@ require_once dirname(__DIR__) . '/Auth.php';
 wajib_role(['admin']);
 
 // Hapus satu relasi mengajar dan laporkan apakah barisnya ditemukan.
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: Mengajar.php');
-    exit;
-}
+wajib_post_csrf();
 
 $id = filter_var($_POST['id'] ?? null, FILTER_VALIDATE_INT);
 if (!$id || $id < 1) {

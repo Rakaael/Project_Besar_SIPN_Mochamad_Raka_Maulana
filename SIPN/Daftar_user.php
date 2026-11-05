@@ -89,7 +89,7 @@ $kelasSaatIni = '';
                 ORDER BY u.id DESC");
 
             if (!$query) {
-                die('Query gagal: ' . mysqli_error($koneksi));
+                gagal_internal('User list query failed: ' . mysqli_error($koneksi));
             }
 
             while ($data = mysqli_fetch_assoc($query)) {

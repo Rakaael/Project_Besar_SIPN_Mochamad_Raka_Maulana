@@ -26,6 +26,7 @@ require_once dirname(__DIR__) . '/Navbar.php';
         <div class="alert alert-info">Tidak ada siswa yang perlu dinilai. Semua siswa yang terdaftar pada mata pelajaran Anda di menu Mengajar sudah memiliki nilai.</div>
     <?php } ?>
     <form action="NILAI/Aksi_tambah_nilai.php" method="post" class="kartu row g-3">
+        <input type="hidden" name="csrf_token" value="<?= h(token_csrf()); ?>">
         <div class="col-12">
             <label for="pasangan" class="form-label">Siswa &amp; Mata Pelajaran</label>
             <select class="form-select" id="pasangan" name="pasangan" required>

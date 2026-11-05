@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . '/Auth.php';
+
 // Petakan parameter URL ke pesan status yang ditampilkan di halaman login.
 $errorMessages = [
     'invalid' => 'Username atau password salah.',
@@ -392,6 +394,7 @@ $loggedOut = ($_GET['logout'] ?? '') === '1';
                 <div class="alert alert-danger" role="alert"><?= htmlspecialchars($error); ?></div>
             <?php } ?>
             <form action="Aksi_login.php" method="post">
+                <input type="hidden" name="csrf_token" value="<?= h(token_csrf()); ?>">
                 <div class="mb-3">
                     <label for="username" class="form-label">Username</label>
                     <div class="input-group login-input">

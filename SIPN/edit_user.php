@@ -20,12 +20,14 @@ $query = mysqli_prepare($koneksi, "SELECT u.id, u.username, u.role,
     WHERE u.id = ?");
 
 if (!$query) {
-    die('Error query: ' . mysqli_error($koneksi));
+    gagal_internal('User edit query preparation failed: ' . mysqli_error($koneksi));
 }
 
 mysqli_stmt_bind_param($query, 'i', $id);
 if (!mysqli_stmt_execute($query)) {
-    die('Error query: ' . mysqli_stmt_error($query));
+    $error = mysqli_stmt_error($query);
+    mysqli_stmt_close($query);
+    gagal_internal('User edit query execution failed: ' . $error);
 }
 $result = mysqli_stmt_get_result($query);
 $user = $result ? mysqli_fetch_assoc($result) : null;
@@ -83,6 +85,7 @@ $selected = fn($value, $option) => ($value ?? '') === $option ? 'selected' : '';
             <?php } ?>
 
             <form action="proses_edit.php" method="POST">
+                <input type="hidden" name="csrf_token" value="<?= h(token_csrf()); ?>">
                 <input type="hidden" name="id" value="<?= $e($user['id']); ?>">
 
                 <div id="profile-fields" style="display: <?= $role === 'admin' ? 'none' : 'block'; ?>;">

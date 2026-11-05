@@ -29,6 +29,7 @@ $error = $errorMessages[$_GET['error'] ?? ''] ?? null;
             <div class="card border border-2 border-secondary-subtle rounded-4 shadow-sm">
                 <div class="card-body p-4 p-md-5">
                     <form action="proses_tambah.php" method="POST">
+                        <input type="hidden" name="csrf_token" value="<?= h(token_csrf()); ?>">
                         <h1 class="h2 text-center mb-4">Form Tambah User</h1>
                         <?php if ($error) { ?><div class="alert alert-danger" role="alert"><?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8'); ?></div><?php } ?>
 

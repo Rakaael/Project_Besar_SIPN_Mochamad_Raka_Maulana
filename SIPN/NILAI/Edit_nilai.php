@@ -23,6 +23,7 @@ require_once dirname(__DIR__) . '/Navbar.php';
     <h1 class="h2 mb-4">Edit Nilai</h1>
     <?php notifikasi([], ['invalid' => 'Nilai harus angka 0 sampai 100.', 'failed' => 'Operasi gagal. Silakan coba lagi.']); ?>
     <form action="NILAI/Aksi_edit_nilai.php" method="post" class="kartu row g-3">
+        <input type="hidden" name="csrf_token" value="<?= h(token_csrf()); ?>">
         <input type="hidden" name="id" value="<?= (int) $n['id']; ?>">
         <div class="col-md-6"><label class="form-label">Siswa</label>
             <input type="text" class="form-control" value="<?= h($n['nama_siswa'] . ' (' . $n['kelas'] . ')'); ?>" disabled></div>
