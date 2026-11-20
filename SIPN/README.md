@@ -3,8 +3,8 @@ Tugas Besar Pemrograman Web (SMK Sangkuriang 1 Cimahi, RPL 2026/2027). PHP nativ
 
 ## Menjalankan (Laragon)
 1. Letakkan folder `SIPN` di `C:\laragon\www\`, jalankan Apache & MySQL.
-2. Database yang dipakai aplikasi saat ini adalah `db_siacad_smk_2` (lihat `Koneksi.php`). `database/sipn.sql` membuat database terpisah bernama `db_smk` dan menghapus lalu membuat ulang tabel di database itu. Jangan impor ulang ke database aktif tanpa backup. Untuk memakai data seed dari SQL, ubah `$database` di `Koneksi.php` menjadi `db_smk`.
-3. Buka `http://localhost/SIPN/` lalu login. Akun: lihat `AKUN.md`.
+2. Database yang dipakai aplikasi saat ini adalah `db_siacad_smk_2` (lihat `Koneksi.php`). `database/sipn.sql` membuat/menggunakan database bernama sama dan menghapus lalu membuat ulang tabel di database itu. Jangan impor ulang ke database aktif tanpa backup. Untuk lingkungan lain, koneksi dapat dioverride dengan environment `SIPN_DB_HOST`, `SIPN_DB_USERNAME`, `SIPN_DB_PASSWORD`, dan `SIPN_DB_NAME`.
+3. Untuk checkout ini, buka `http://localhost/Tugas_besar_Mochamad_Raka_Maulana/SIPN/`, lalu login. Jika folder `SIPN` dipindahkan langsung ke `C:\laragon\www\SIPN`, gunakan `http://localhost/SIPN/`.
 
 ### Memperbarui database yang sudah ada
 Jangan jalankan ulang `database/sipn.sql` pada database yang berisi data karena skrip tersebut menghapus dan membuat ulang tabel. Indeks unik kode mapel dan pasangan nilai sudah didefinisikan pada skema untuk database baru di `database/sipn.sql`. Menghapus file migrasi tidak mengubah tabel atau indeks yang sudah ada pada database aktif.

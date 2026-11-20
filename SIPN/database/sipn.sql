@@ -1,8 +1,9 @@
 -- SIPN - Sistem Informasi Pengelolaan Nilai
 -- Import lewat HeidiSQL/phpMyAdmin (Laragon). Database dibuat otomatis.
+-- PERINGATAN: skrip ini menghapus dan membuat ulang tabel SIPN.
 
-CREATE DATABASE IF NOT EXISTS db_smk CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE db_smk;
+CREATE DATABASE IF NOT EXISTS db_siacad_smk_2 CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE db_siacad_smk_2;
 SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS nilai_rapor, mengajar, mapel, guru, siswa, users;
 SET FOREIGN_KEY_CHECKS=1;
