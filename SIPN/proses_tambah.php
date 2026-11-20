@@ -70,7 +70,7 @@ $kelas = $postText('kelas');
 $jenisKelamin = strtoupper($postText('jenis_kelamin'));
 
 if ($role === 'siswa' && ($nis === '' || strlen($nis) > 10 || $nama === '' || strlen($nama) > 100
-    || (!$isPublicRegistration && ($kelas === '' || strlen($kelas) > 10))
+    || $kelas === '' || strlen($kelas) > 10
     || !in_array($jenisKelamin, ['L', 'P'], true))) {
     $fail('invalid');
 }

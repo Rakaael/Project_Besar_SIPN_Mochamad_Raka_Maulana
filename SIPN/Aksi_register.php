@@ -1,6 +1,5 @@
 <?php
 require_once __DIR__ . '/Auth.php';
-
 // Terima pendaftaran siswa publik hanya melalui formulir POST dengan data yang valid.
 wajib_post_csrf();
 
@@ -9,10 +8,12 @@ $password = $_POST['password'] ?? '';
 $nisInput = $_POST['nis'] ?? '';
 $namaInput = $_POST['nama'] ?? '';
 $jenisKelaminInput = $_POST['jenis_kelamin'] ?? '';
+$kelasInput = $_POST['kelas'] ?? '';
 $username = is_string($usernameInput) ? trim($usernameInput) : '';
 $nis = is_string($nisInput) ? trim($nisInput) : '';
 $nama = is_string($namaInput) ? trim($namaInput) : '';
 $jenisKelamin = is_string($jenisKelaminInput) ? strtoupper(trim($jenisKelaminInput)) : '';
+$kelas = is_string($kelasInput) ? trim($kelasInput) : '';
 
 // Validasi batas panjang dan pilihan jenis kelamin sebelum meneruskan data ke proses simpan.
 $isValid = $username !== ''
@@ -24,6 +25,8 @@ $isValid = $username !== ''
     && strlen($nis) <= 10
     && $nama !== ''
     && strlen($nama) <= 100
+    && $kelas !== ''
+    && strlen($kelas) <= 10
     && in_array($jenisKelamin, ['L', 'P'], true);
 
 if (!$isValid) {
@@ -33,6 +36,6 @@ if (!$isValid) {
 
 $_SESSION['public_student_registration'] = true;
 $_POST['role'] = 'siswa';
-$_POST['kelas'] = '';
+$_POST['kelas'] = $kelas;
 unset($_POST['only_user']);
 require __DIR__ . '/proses_tambah.php';

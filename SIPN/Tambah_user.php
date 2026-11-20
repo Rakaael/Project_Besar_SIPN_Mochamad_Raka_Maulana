@@ -1,8 +1,7 @@
 <?php
 require_once __DIR__ . '/Auth.php';
-
 // File ini berisi form untuk menambahkan data siswa baru.
-// Siswa mengisi NIS, nama, jenis kelamin, username, dan password; kelas ditetapkan admin.
+// Siswa mengisi NIS, nama, kelas, jenis kelamin, username, dan password.
 $errorMessages = [
     'duplicate' => 'NIS atau username sudah digunakan. Silakan periksa kembali.',
     'invalid' => 'Data pendaftaran belum valid. Periksa semua kolom.',
@@ -42,6 +41,11 @@ $error = $errorMessages[$_GET['error'] ?? ''] ?? null;
                         <div class="mb-3">
                             <label for="nama" class="form-label">Nama Lengkap</label>
                             <input type="text" id="nama" name="nama" maxlength="100" class="form-control" placeholder="Masukkan nama lengkap" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="kelas" class="form-label">Kelas</label>
+                            <input type="text" id="kelas" name="kelas" maxlength="10" class="form-control" placeholder="Contoh: X RPL 1" required>
                         </div>
 
                         <fieldset class="mb-4">
